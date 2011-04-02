@@ -13,7 +13,7 @@
 \title{Analiza atechniczna}
 \author{Jan Stępień}
 
-\hyphenation{IaaS}
+\hyphenation{IaaS Rack-Space}
 
 \begin{document}
 	\maketitle
@@ -39,9 +39,70 @@
 
 	\section{Historia}
 
-	Projekt OpenStack powstał w~czerwcu 2010 roku \cite{hansen11}. Twórcami byli
+	W~niniejszej sekcji pokrótce nakreślona zostanie historia projektu
+	OpenStack. Przedstawione poniżej informacje w~głównej mierze pochodzą
+	z~prezentacji pracownika Rackspace Sorena Hansena \cite{hansen11}.
+
+	Projekt OpenStack narodził się w~czerwcu 2010 roku. Twórcami są
 	dostarczająca usługi hostingowe firma Rackspace oraz amerykańska agencja
-	NASA.
+	NASA. Obie organizacje pracowały już wcześniej nad rozwiązaniami w~chmurze
+	i~rozważały udostępnienie wyników swoich prac jako open source. Po
+	opublikowaniu przez NASA projektu Nebula Rackspace zaproponował im
+	współpracę mającą na celu utworzenie otwartej platformy cloud computing.
+
+	W~lipcu 2010 w~Austin w~Teksasie zorganizowane zostało spotkanie OpenStack
+	Design Summit. Wzięło w~nim udział około 200 osób, dużo więcej niż
+	zakładali organizatorzy. Wkrótce później NASA, Rackspace i~kilkadziesiąt
+	innych firm zadeklarowało chęć współpracy nad rozwojem projektu OpenStack.
+	Pierwsza wersja projektu pod nazwą kodową Austin została opublikowana
+	w~październiku 2010. Kod udostępniono na otwartej licencji Apache License.
+
+	Zainteresowanie OpenStack rośnie bardzo szybko. Wykorzystaniem go
+	zainteresował się m.in. rząd Kanady \cite{computerworld_bort}. Zaufanie
+	wobec OpenStack buduje oferta dla użytkowników biznesowych. Poza
+	standardową pomocą jakiej może udzielić użytkownikom społeczność, firma
+	Rackspace oferuje wsparcie komercyjne dla klientów zainteresowanych
+	uruchomieniem OpenStack na swojej architekturze
+	\cite{openstack_goes_commercial}. Nie bez znaczenia jest też lista
+	deklarujących zaangażowanie w~projekt firm, takich jak choćby Dell, Intel,
+	AMD czy Cisco \cite{openstack}.
+
+	\section{Polityka otwartości}
+
+	Twórcy OpenStack od początku deklarowali chęć dążenia do otwartości. Na wiki
+	projektu opublikowali swoją definicję tego pojęcia i~zobowiązali się do
+	przestrzegania przestawionych tam zasad \cite{openness}. Zagwarantowali, że
+	prace nad OpenStack będą prowadzone publicznie i~żadne decyzje w~sprawie
+	projektu nie będą podejmowane bez uczestnictwa społeczności. Obiecali
+	nie ograniczać funkcjonalności swojego produktu w~celu czerpania zysków
+	z~płatnej, bogatszej wersji platformy.
+
+	Repozytoria z~kodem źródłowym OpenStack są publicznie dostępne na serwisie
+	Launchpad. Kod jest dostępny na licencji Apache License. Zgodnie
+	z~obietnicami twórców prace nad projektem odbywają się publicznie przy
+	pomocy dostępnych w~ramach serwisu Launchpad grup dyskusyjnych, systemów
+	zarządzania dokumentacją i~bugami.
+
+	Kontrowersje na temat zadeklarowanej otwartości wzbudziła w~marciu bieżącego
+	roku decyzja Rackspace o~wprowadzeniu nowego modelu zarządzania projektem.
+	Sama treść ich propozycji nie budziła sprzeciwów. Niepokojący jednak był
+	fakt, że proces przygotowania nowego modelu nie był publiczny a~decyzji
+	o~jego wprowadzeniu skonsultowano ze społecznością.
+
+	Na powyższy fakt uwagę zwrócił jeden z~głównych autorów OpenStack, Rick
+	Clark, w~swojej wiadomości na grupie dyskusyjnej projektu
+	\cite{clark_list_msg}. Wyraził tam swoje zastrzeżenia do sposobu
+	wprowadzenia zmiany. Wkrótce później podjął on decyzję o~rezygnacji ze
+	stanowiska w~Rackspace a~szczegóły sprawy opisał na swoim blogu
+	\cite{why_i_left_rackspace}. Zwrócił tam uwagę na fakt, że jego zdaniem
+	Rackspace zamiast wpływać na kierunek rozwoju OpenStack chce go kontrolować.
+	Zarzucił swoim byłym pracodawcom, że ich celem jest zbijanie na projekcie
+	kapitału PR-owego zamiast doskonalenia technologii. Stwierdził również, że
+	wkład większości oficjalnych partnerów Rackspace, którzy zadeklarowali
+	współpracę przy projekcie, ograniczył się do notatki w~zakładkach dla
+	mediów. Na koniec zasugerował, że kod i~marka OpenStack powinna należeć do
+	niezależnej fundacji aby uniknąć w~przyszłości problemów podobnych jakie
+	spotkały projekty firmy Sun po wykupieniu jej przez Oracle.
 
 	\bibliographystyle{../plplainurl}
 	\bibliography{../bibliografia}
