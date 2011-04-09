@@ -104,6 +104,39 @@
 	niezależnej fundacji aby uniknąć w~przyszłości problemów podobnych jakie
 	spotkały projekty firmy Sun po wykupieniu jej przez Oracle.
 
+	\section{Analiza repozytorium}
+
+	Kod źródłowy projektów wchodzących w skład OpenStack jest dostępny
+	w~repozytoriach Bazaar przechowywanych w~serwisie Launchpad. Zawartość
+	repozytoriów Nova i~Swift -- odpowiednio systemu zarządzającego maszynami
+	wirtualnymi oraz bazy danych typu klucz-wartość -- została pobrana i~poddana
+	analizie.
+
+	\begin{table}
+		\centering
+		\begin{tabular}{|r|r|r|}
+			\hline
+			\bf Projekt & \bf Komentarz & \phantom{asdf} \bf Kod \\
+			\hline
+			Nova & 12157 & 39854 \\
+			Swift & 6090 & 32011 \\
+			\hline
+		\end{tabular}
+		\caption{Wyniki analizy kodu OpenStack narzędziem CLOC}
+		\label{tab:cloc}
+	\end{table}
+
+	Obydwa projekty są rozwijane w~języku Python. Przy pomocy narzędzia CLOC
+	\cite{cloc} sprawdzono liczbę linii zawierających komentarze w~porównaniu do
+	linii z~kodem źródłowym. Wyniki przedstawiono w~tabeli \ref{tab:cloc}.
+	Na ich podstawie możemy stwierdzić, że OpenStack ze średnim udziałem
+	komentarzy w~wysokości około 20\%, plasuje się poniżej średniej dla
+	otwartych projektów w~języku Python, która według serwisu Ohloh wynosi 24\%
+	\cite{ohloh_python_stats}. Biorąc jednak pod uwagę, że w~przypadku obydwu
+	projektów w~ich katalogach \texttt{doc} znajduje się obszerna dokumentacja,
+	możemy uznać, że autorzy projektów Nova i~Swift poważnie podchodzą do
+	dokumentowania tworzonych przez siebie narzędzi.
+
 	\bibliographystyle{../plplainurl}
 	\bibliography{../bibliografia}
 
