@@ -20,7 +20,7 @@ Obecnie często mamy do czynienia z sytuacją, gdzie serwer, świadczący pewną
 Projekt Nova (czyli OpenStack Compute) jest implementacją takiej infrastruktury. Poniższy dokument ma na celu określenie funkcjonalności oraz możliwości konfiguracji projektu OpenStack Compute.
 
 \section{Możliwości}
-Nova realizuje model IaaS -- Infrastructure as a Service (infrastruktura jako usługa). W modelu tym dostawca posiada infrastrukturę, w ramach której klient płaci za używaną przez siebie moc obliczeniową oraz przestrzeń dyskową. W przypadku obliczeń w chmurze, klient płaci za faktyczną ilość użytych zasobów\cite{yt:prezentacja_od_jana}, nie za wartość nominalną, jak ma to miejsce w przypadku fizycznych serwerów. 
+Nova realizuje model IaaS -- Infrastructure as a Service (infrastruktura jako usługa). W modelu tym dostawca posiada infrastrukturę, w ramach której klient płaci za używaną przez siebie moc obliczeniową oraz przestrzeń dyskową. W przypadku obliczeń w chmurze, klient płaci za faktyczną ilość użytych zasobów\cite{hansen11}, nie za wartość nominalną, jak ma to miejsce w przypadku fizycznych serwerów. 
 
 Projekt ten dostarcza nam szereg funkcjonalności, które pomagają w realizacji obliczeń w chmurze. Mamy możliwość konfiguracji wielu parametrów -- od uprawnień użytkowników zaczynając, na topologii fizycznej tegoż cloud'a kończąc.
 
@@ -28,7 +28,7 @@ Projekt ten dostarcza nam szereg funkcjonalności, które pomagają w realizacji
 
 Wprowadzony jest podział użytkowników na role oraz projekty. W oparciu o nie określane są uprawnienia.
 
-Mamy pięć ról do przydzielania użytkownikom\cite{nova_doc}:
+Mamy pięć ról do przydzielania użytkownikom\cite{nova_manual}:
 
 \begin{itemize}
 \item Cloud Administrator -- pełen zestaw uprawnień
@@ -40,7 +40,7 @@ Mamy pięć ról do przydzielania użytkownikom\cite{nova_doc}:
 
 Dodatkowo, OpenStack Compute określa pojęcie projektu. Projekty grupują zasoby i użytkowników, którzy mają do nich dostęp.
 
-Istnieje szereg parametrów konfigurowalnych per projekt\cite{nova_doc}:
+Istnieje szereg parametrów konfigurowalnych per projekt\cite{nova_manual}:
 
 \begin{itemize}
 \item Ilość wirtualnych dysków twardych w projekcie
@@ -52,12 +52,11 @@ Istnieje szereg parametrów konfigurowalnych per projekt\cite{nova_doc}:
 
 \section{Komponenty}
 
-Istnieje kilka rodzajów komponentów, z których składa się cloud OpenStack Compute\cite{nova_doc}.
-%TODO:    prawie -> napisać który nie jest
-Aktualnie prawie każdy z nich jest łatwo skalowalny horyzontalnie, tzn. można w razie potrzeby dołożyć więcej elementów danego typu. Każdy z nich może być uruchamiany na osobnej maszynie, nic nie stoi też na przeszkodzie, aby je wszystkie uruchomić na jednej maszynie.
+Istnieje kilka rodzajów komponentów, z których składa się cloud OpenStack Compute\cite{nova_manual}.
+Aktualnie prawie każdy z nich - poza bazą danych - jest łatwo skalowalny horyzontalnie, tzn. można w razie potrzeby dołożyć więcej elementów danego typu. Każdy z nich może być uruchamiany na osobnej maszynie, nic nie stoi też na przeszkodzie, aby je wszystkie uruchomić na jednej maszynie.
 
-\subsection{Cloud controller}
-Reprezentuje stan chmury? Ma jakąś bazę danych. Ma kolejkę? Jest jeden? %TODO: ogarnąć wtf
+\subsection{Kolejka}
+Kolejka komunikatów, służąca do przesyłania wiadomości między wszystkimi pozostałymi komponentami. Nova korzysta z kolejki RabbitMQ.
 
 \subsection{API server}
 Jedyny serwis dostępny z zewnątrz - przez niego przechodzą wszystkie żądania uruchomienia/wstrzymania maszyn wirtualnych. Komunikacja z nim odbywa się poprzez protokół HTTP. 
@@ -89,7 +88,7 @@ Opcjonalny komponent, udostępniający obrazy maszyn wirtualnych. Zamiast niego,
 
 \section{Wirtualizacja}
 
-Nova pozwala na wykorzystanie poniższych typów wirtualizacji\cite{nova_doc}:
+Nova pozwala na wykorzystanie poniższych typów wirtualizacji\cite{nova_manual}:
 
 \begin{itemize}
 \item{KVM}
@@ -101,8 +100,7 @@ Nova pozwala na wykorzystanie poniższych typów wirtualizacji\cite{nova_doc}:
 
 Obrazy maszyn wirtualnych mogą być przechowywane przy użyciu Glance (OpenStack Imaging Service) lub nova-objectstore.
 
-%TODO: dodać bibliografię
-\bibliography{bibref}{}
+\bibliography{../bibliografia.bib}
 \bibliographystyle{plain}
 	
 \end{document}
