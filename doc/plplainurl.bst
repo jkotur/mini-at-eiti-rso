@@ -56,7 +56,7 @@ INTEGERS { hrefform inlinelinks makeinlinelink addeprints adddoiresolver addpubm
 % Following constants may be adjusted by hand, if desired
 FUNCTION {init.urlbst.variables}
 {
-  "\\Dostępne\mbox{ }pod: " 'urlintro := % prefix before URL
+  "[Online]. Protokół dostępu: " 'urlintro := % prefix before URL
   "http://arxiv.org/abs/" 'eprinturl := % prefix to make URL from eprint ref
   "arXiv:" 'eprintprefix := % text prefix printed before eprint ref
   "http://dx.doi.org/" 'doiurl := % prefix to make URL from DOI
