@@ -17,7 +17,7 @@
 
 \nocite{openstack}
 
-OpenStack Storage, inaczej nazywany Swift, jest systemem chmurowym pozwalającym na przechowywanie danych. Długo obiekty które są przechowywane przez system miały ograniczenie wielkości 5GB, jednak niedawno twórcom udało się z nim poradzić. Swift pozwala na przechowywanie płaskiej struktury obiektów (plików), grupowanych w kontenerach. Każdy użytkownik może posiadać dowolnie dużo kontenerów,~a w nich dowolnie dużo plików. W zależności od konfiguracji system pozwala na tworzenie kopii zapasowych, oraz automatyczne zarządzanie tymi kopiami. API systemu oparte jest na prostych wywołaniach PUT, GET oraz paru innych. Swift pozwala również na użycie dowolnego systemu autoryzacji, jednak twórcy dostarczają gotowe rozwiązanie, które wspiera zarówno standardowe podejście użytkownik:grupa, jak i ACL.
+OpenStack Storage, inaczej nazywany Swift, jest systemem chmurowym pozwalającym na przechowywanie danych. Długo obiekty które są przechowywane przez system miały ograniczenie wielkości 5GB, jednak niedawno twórcom udało się z nim poradzić. Swift pozwala na przechowywanie płaskiej struktury obiektów (plików), grupowanych w kontenerach. Każdy użytkownik może posiadać dowolnie dużo kontenerów,~a w nich dowolnie dużo plików. W zależności od konfiguracji system pozwala na tworzenie kopii zapasowych, oraz automatyczne zarządzanie tymi kopiami. API systemu oparte jest na protokole HTTP, a jego architektura jest zgodna z ReST. Swift pozwala również na użycie dowolnego systemu autoryzacji, jednak twórcy dostarczają gotowe rozwiązanie, które wspiera zarówno standardowe podejście użytkownik:grupa, jak i ACL.
 
 %\section{Możliwości}\label{sec:możliwości}
 
