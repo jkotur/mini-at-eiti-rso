@@ -14,19 +14,22 @@
 \maketitle
 
 \section{Wstęp}
-\paragraph{}
 
 \nocite{openstack}
 
 OpenStack Storage, inaczej nazywany Swift, jest systemem chmurowym pozwalającym na przechowywanie danych. Długo obiekty które są przechowywane przez system miały ograniczenie wielkości 5GB, jednak niedawno twórcom udało się z nim poradzić. Swift Pozwala on na przechowywanie płaskiej struktury obiektów (plików), grupowanych w kontenerach. Każdy użytkownik może posiadać dowolnie dużo kontenerów, a w nich dowolnie dużo plików. W zależności od konfiguracji system pozwala na tworzenie kopii zapasowych, oraz automatyczne zarządzanie tymi kopiami. API systemu oparte jest na prostych wywołaniach PUT, GET i paru innych.
 
+\section{Możliwości}\label{sec:możliwości}
+
+\section{Zastosowania}\label{sec:zastosowania}
+
 \section{Architektura}\label{sec:architektura}
-\paragraph{}
 
 System posiada szereg jednostek z których każda odpowiedzialna jest za konkretne zadanie. Jednostką taką może być zarówno serwer, proces jak i struktura danych, opisujące działanie systemu. W poniższym rozdziale zostaną pokrótce przedstawione wszystkie jednostki. Dokładny opis wybranych jednostek znajduje się w późniejszych rozdziałach.
 
-\subsection{Serwery}\label{sub:serwery}
-\paragraph{}
+\subsection{Główne komponenty}\label{sub:glowne komponenty}
+
+\subsubsection{Serwery}\label{sub:serwery}
 
 \begin{description}
 \item[Serwer proxy] -- serwer odpowiedzialny za kontrolę nad innymi serwerami chmury. Do niego wysyłane są zapytanie API, które następnie kieruje do odpowiednich serwerów. Jest również odpowiedzialny za kontrolę błędów, np. jeśli okaże się że wywołany serwer jest niedostępny, to właśnie serwer proxy znajduje jego serwer lustrzany i wysyła nowe zapytanie.
@@ -35,8 +38,7 @@ System posiada szereg jednostek z których każda odpowiedzialna jest za konkret
 \item[Serwer kont] -- identyczny z serwerem kontenerów, tylko przechowuje dane o kontenerach które posiada dane konto.
 \end{description}
 
-\subsection{Procesy}\label{sub:procesy}
-\paragraph{}
+\subsubsection{Procesy}\label{sub:procesy}
 
 Aby zapewnić spójność i aktualność danych w całym systemie, ciągle chodzą w nim trzy procesy. Wszystkie trzy są odpowiedzialne za to zadanie, jednak uaktywniają się w różnych sytuacjach.
 
@@ -47,30 +49,44 @@ Aby zapewnić spójność i aktualność danych w całym systemie, ciągle chodz
 \item[Żniwiar] -- albo ładniej, żniwiarz użytkowników, jest procesem który dba o usuwanie danych, które należały do użytkowników usuniętych z systemu. Jeśli uda mu się usunąć wszystkie pliki, oraz kontenery użytkownika, kasuje tego użytkownika z bazy.
 \end{description}
 
-\subsection{Struktury danych}\label{sub:struktury danych}
+\subsubsection{Struktury danych}\label{sub:struktury danych}
 
 \begin{description}
 \item[Pierścień] -- zestaw mapowań z kluczy obiektów OpenStacka na fizyczne urządzenia. Dzięki pierścieniowi serwer proxy wie do którego serwera obiektów wysłać zapytanie. Istnieją oddzielne pierścienie dla obiektów, kontenerów i kont, jednak są one identyczne. W pierścieniu można ustawić poziom replikacji serwerów.
 \item[Urządzenie] -- lokalizacja fizycznego dysku w chmurze z dodatkowymi danymi na jego temat. Na podstawie danych zawartych w opisie urządzenia pierścień zna dokładne miejsce gdzie ma zostać wysłane zapytanie, oraz może dynamicznie wybierać lepsze, bądź po prostu aktualnie aktywne urządzenia.
 \end{description}
 
-\section{Możliwości}\label{sec:możliwości}
+\subsection{Replikacja}\label{sec:replikacja}
 
-\section{Zastosowania}\label{sec:zastosowania}
+Replikacja w Swifcie podzielona jest na dwa moduły. Jeden odpowiada za replikację obiektów (danych), drugi za replikację kontenerów i kont, czyli po efektywnie baz danych. Oba moduły jednak polegają na zasadzie PUSH, czyli każdy serwer dba o to, aby jego dane lokalne jeśli są nowe, znalazły się na wszystkich replikach. Wysyłanie odbywa się poprzez pierścień, który decyduje które serwery są faktycznie replikami danego serwera. Mechanizm ten wygląda w ten sposób, ponieważ serwer nie wie skąd pobrać dane, a więc i gdzie są nowsze dane niż te które posiada. Warto jeszcze wspomnieć o mechanizmie usuwania danych z chmury, ponieważ jest on nieoczywisty. 
 
-\subsection{Usuwanie}\label{sub:usuwanie}
-\paragraph{}
+Trzeba zaznaczyć że prace nad modułem replikacji w Swifcie są aktualnie podczas tworzenia, więc większość informacji zawartej w tym rozdziale może się niedługo zmienić, bądź już jest nieaktualna. Niemniej ogólna idea zapewne pozostanie taka sama.
+
+\subsubsection{Bazy danych}\label{sub:bazy danych}
+
+W pierwszej kolejności serwery baz danych porównują hasze baz, jeśli się zgadzają, synchronizacja nie jest potrzebna. W przeciwnym przypadku synchronizowane są brakujące rekordy.
+
+Serwery baz danych przechowują dodatkową bazę synchronizacji. W takiej bazie istnieje informacja, kiedy ostatnio serwer był synchronizowany z którymi bazami. Bazy rozpoznawane są po unikalnych w skali replikacji identyfikatorach. Jeżeli zdalna baza jest starsza, nowe rekordy są wysyłane. Po wysłaniu wszystkich rekordów cała baza synchronizacji wysyłana jest na zdalny serwer. W ten sposób informacja o synchronizacji z innymi bazami, przechodzi na serwer zdalny.
+
+\subsubsection{Obiekty}\label{sub:obiekty}
+
+Na serwerach obiektów również trzymane są hasze dla każdego katalogu z danymi. Jeżeli hasze się różnią, dane z danego katalogu są synchronizowane przy pomocy rsynca. Po takiej operacji nowe hasze są wyliczane na zdalnej maszynie.
+
+\subsubsection{Usuwanie}\label{sub:usuwanie}
 
 Kiedy z serwera obiektów usuwany jest plik, zamiast usunięcia go, stawiany jest specjalny plik, będący znacznikiem usunięcia. Taki plik ma ten sam identyfikator co poprzednie dane, jednak ma nowszą wersję. Dzięki temu proces odpowiedzialny za integralność danych w chmurze rozpropaguje taki znacznik po wszystkich replikach. Znacznik jest usuwany po czasie zwanym oknem spójności, czyli po czasie po którym jesteśmy pewni że dany plik został rozpowszechniony na wszystkie serwery.
 
-\section{Autoryzacja}\label{sec:autoryzacja}
-\paragraph{}
+\subsection{Autoryzacja}\label{sec:autoryzacja}
 
-Ponieważ autoryzacja w swifcie maja historyczne zaszłości i jest mocno związana z innymi systemami rackspace'a, można ją przeprowadzać na kilka sposobów. Może być prowadzona poprzez zupełnie oddzielny system niezależny od swifta, bądź przez podsystem swifta nazywany Swauth. Ogólna koncepcja autoryzacji w systemie opiera się na tokenie autoryzacji, który dołączany jest do każdego żądania wysyłanego przez użytkownika. Token taki jest po prostu stringiem. Z punktu widzenia swifta ważne jest jedynie aby móc go wysłać do systemu autoryzacji i otrzymać odpowiedź, czy token jest poprawny czy nie. Jeśli odpowiedź jest pozytywna, wraz z nią przychodzi informacja o czasie wygaśnięcia autoryzacji w sekundach. Przez ten czas swift przetrzymuje token jako poprawny. Autoryzacja jest pierwszą czynnością którą musi wykonać użytkownik systemu. Po zalogowaniu się w serwerze autoryzacyjnym, dostanie on token, który musi być dołączony do każdego zapytania.
-
-\paragraph{}
+Ponieważ autoryzacja w swifcie maja historyczne zaszłości i jest mocno związana z innymi systemami Rackspace'a, można ją przeprowadzać na kilka sposobów. Może być prowadzona poprzez zupełnie oddzielny system niezależny od swifta, bądź przez podsystem swifta nazywany Swauth. Ogólna koncepcja autoryzacji w systemie opiera się na tokenie autoryzacji, który dołączany jest do każdego żądania wysyłanego przez użytkownika. Token taki jest po prostu stringiem. Z punktu widzenia swifta ważne jest jedynie aby móc go wysłać do systemu autoryzacji i otrzymać odpowiedź, czy token jest poprawny czy nie. Jeśli odpowiedź jest pozytywna, wraz z nią przychodzi informacja o czasie wygaśnięcia autoryzacji w sekundach. Przez ten czas swift przetrzymuje token jako poprawny. Autoryzacja jest pierwszą czynnością którą musi wykonać użytkownik systemu. Po zalogowaniu się w serwerze autoryzacyjnym, dostanie on token, który musi być dołączony do każdego zapytania.
 
 Wbudowany w swifta system autoryzacji Swauth pozwala dodatkowo na konta administracyjne. Kiedy normalni użytkownicy ograniczeni są do własnych kontenerów, administratorzy mogą operować na danych w całym systemie.
+
+\subsection{Segmentacja}\label{sec:segmentacja}
+
+Jak zostało już wcześniej wspomniane OpenStack miał swojego czasu ograniczenie na wielkość jednego pliku wynoszącą 5GB. Aktualnie ograniczenie to zostało zniesione, jednak ograniczenie na wielkość jednego pliku pozostaje i jest konfigurowalne. Domyślnie cały czas jest to 5GB. Aby poradzić sobie z tym ograniczeniem twórcy OpenStacka wprowadzili ideę segmentacji obiektów. Jeden plik dla użytkownika, może być przechowywany w chmurze jako dowolna ilość segmentów. Aby poradzić sobie z segmentacją, wraz z segmentami do Swifta wysyłany jest specjalny plik manifestu w którym przechowywane są informacje w którym kontenerze i z jakim prefiksem przechowywane są segmenty. Wszystkie segmenty muszą być przechowywane w tym samym kontenerze, jednak plik manifestu może być w innym. Dzięki temu obiekty segmentów nie zaśmiecają listingu bazowego kontenera, a plik manifestu udaje normalny obiekt.
+
+Dodatkową korzyścią płynącą z segmentacji jest współbieżne wysyłanie pliku przez serwery. Jeżeli np. segmenty zostaną rozprowadzone po różnych centrach danych, użytkownik może pobierać duży plik z prędkością sumaryczną oferowaną przez te serwerownie.
 
 \section{Konfiguracja}\label{sec:konfiguracja}
 
