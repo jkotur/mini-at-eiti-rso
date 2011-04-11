@@ -17,7 +17,7 @@
 
 \nocite{openstack}
 
-OpenStack Storage, inaczej nazywany Swift, jest systemem chmurowym pozwalającym na przechowywanie danych. Długo obiekty które są przechowywane przez system miały ograniczenie wielkości 5GB, jednak niedawno twórcom udało się z nim poradzić. Swift Pozwala on na przechowywanie płaskiej struktury obiektów (plików), grupowanych w kontenerach. Każdy użytkownik może posiadać dowolnie dużo kontenerów, a w nich dowolnie dużo plików. W zależności od konfiguracji system pozwala na tworzenie kopii zapasowych, oraz automatyczne zarządzanie tymi kopiami. API systemu oparte jest na prostych wywołaniach PUT, GET oraz paru innych. Swift pozwala również na użycie dowolnego systemu autoryzacji, jednak twórcy dostarczają gotowe rozwiązanie, które wspiera zarówno standardowe podejście użytkownik:grupa, jak i ACL.
+OpenStack Storage, inaczej nazywany Swift, jest systemem chmurowym pozwalającym na przechowywanie danych. Długo obiekty które są przechowywane przez system miały ograniczenie wielkości 5GB, jednak niedawno twórcom udało się z nim poradzić. Swift pozwala na przechowywanie płaskiej struktury obiektów (plików), grupowanych w kontenerach. Każdy użytkownik może posiadać dowolnie dużo kontenerów,~a w nich dowolnie dużo plików. W zależności od konfiguracji system pozwala na tworzenie kopii zapasowych, oraz automatyczne zarządzanie tymi kopiami. API systemu oparte jest na prostych wywołaniach PUT, GET oraz paru innych. Swift pozwala również na użycie dowolnego systemu autoryzacji, jednak twórcy dostarczają gotowe rozwiązanie, które wspiera zarówno standardowe podejście użytkownik:grupa, jak i ACL.
 
 %\section{Możliwości}\label{sec:możliwości}
 
@@ -32,9 +32,9 @@ W poniższym rozdziale opisana zostanie architektura Swifta. Jest to bardzo pogl
 \subsubsection{Serwery}\label{sub:serwery}
 
 \begin{description}
-\item[Serwer proxy] (Proxy Serwer) -- serwer odpowiedzialny za kontrolę nad innymi serwerami chmury. Do niego wysyłane są zapytanie API, które następnie kieruje do odpowiednich serwerów. Jest również odpowiedzialny za kontrolę błędów, np. jeśli okaże się że wywołany serwer jest niedostępny, to właśnie serwer proxy znajduje jego serwer lustrzany i wysyła nowe zapytanie.
+\item[Serwer proxy] (Proxy Server) -- serwer odpowiedzialny za kontrolę nad innymi serwerami chmury. Do niego wysyłane są zapytanie API, które następnie kieruje do odpowiednich serwerów. Jest również odpowiedzialny za kontrolę błędów, np. jeśli okaże się że wywołany serwer jest niedostępny, to właśnie serwer proxy znajduje jego serwer lustrzany i wysyła nowe zapytanie.
 \item[Serwer obiektów] (Object Server) -- prosty serwer przechowujący pliki jako dane binarne. Dodatkowe metadane o plikach przechowywane są w rozszerzonych atrybutach plików. W zależności od ustawień może być replikowany, tak że kilka serwerów przechowuje takie same dane.
-\item[Serwer kontenerów] (Container Server) -- bardzo podobny do serwera obiektów, jednak przechowujący informacje o tym co znajduje się wa danym kontenerze. Dane przechowywane są w bazie sqlite jako szereg wpisów z nazwami obiektów. Analogicznie do serwera obiektów można tworzyć repliki tych serwerów.
+\item[Serwer kontenerów] (Container Server) -- bardzo podobny do serwera obiektów, jednak przechowujący informacje o tym co znajduje się wa danym kontenerze. Dane przechowywane są w bazie SQLite jako szereg wpisów z nazwami obiektów. Analogicznie do serwera obiektów można tworzyć repliki tych serwerów.
 \item[Serwer kont] (Account Server) -- identyczny z serwerem kontenerów, tylko przechowuje dane o kontenerach które posiada dane konto.
 \end{description}
 
@@ -48,7 +48,7 @@ Poniżej wymienione procesy odpowiedzialne są za utrzymywanie poprawnych i spó
 
 \begin{description}
 \item[Aktualizatory] (Updaters) -- procesy dbający o to, aby aktualizować dane na serwerach. Jeśli z jakiegoś powodu aktualizacja danych do serwera nie zostanie wysłana, albo przez serwer odebrana, zostaje ona zakolejkowana. Po z góry ustalonym czasie próba aktualizacji jest ponawiana.
-\item[Audytory] (Auditors) -- procesy sprawdzający poprawność danych lokalnych. Jeśli napotka zepsuty plik, stara się go naprawić ściągając z innej repliki. Jeśli naprawa jes niemożliwa, błąd jest logowany. 
+\item[Audytory] (Auditors) -- procesy sprawdzający poprawność danych lokalnych. Jeśli napotka zepsuty plik, stara się go naprawić ściągając z innej repliki. Jeśli naprawa jest niemożliwa, błąd jest logowany. 
 \item[Replikatory] (Replicators) -- również dbają o spójność danych, jednak ich zadaniem jest utrzymywanie jednakowej wersji na wszystkich serwerach. Jeśli któryś z serwerów nie ma najnowszej wersji, jego dane aktualizowane są do niej.
 \item[Żniwiary] (The Account Reaper) -- albo ładniej, żniwiarz użytkowników, jest procesem który dba o usuwanie danych, które należały do użytkowników usuniętych z systemu. Jeśli uda mu się usunąć wszystkie pliki, oraz kontenery użytkownika, kasuje tego użytkownika z bazy.
 \end{description}
@@ -62,7 +62,7 @@ Poniżej wymienione procesy odpowiedzialne są za utrzymywanie poprawnych i spó
 
 \subsection{Przykładowa konfiguracja}\label{sub:przykladowa konfiguracja}
 
-Na rysunku \hyperref[fig:swift_arch]{rysunku \ref{fig:swift_arch}} została przedstawiona najprostsza konfiguracja chmury Swifta. Serwer autoryzacji, oraz serwer proxy muszą być dostępne dla użytkowników, aby mogli oni wysyłać zapytania do chmury. Użytkownik najpierw odpytuje serwer autoryzacji o swój token, następnie cała komunikacja odbywa się za pośrednictwem serwera proxy. Serwery opisane na obrazku jako storage, są wspomnianymi wcześniej serwerami danych. Najwygodniejszą lokalizacją dla pierścienia, jest publiczny serwer proxy. Konfiguracja serwerów danych jest dowolna, dopóki serwer proxy potrafi się z nimi komunikować.
+Na \hyperref[fig:swift_arch]{rysunku \ref{fig:swift_arch}} została przedstawiona najprostsza konfiguracja chmury Swifta. Serwer autoryzacji, oraz serwer proxy muszą być dostępne dla użytkowników, aby mogli oni wysyłać zapytania do chmury. Użytkownik najpierw odpytuje serwer autoryzacji o swój token, następnie cała komunikacja odbywa się za pośrednictwem serwera proxy. Serwery opisane na obrazku jako storage, są wspomnianymi wcześniej serwerami danych. Najwygodniejszą lokalizacją dla pierścienia, jest publiczny serwer proxy. Konfiguracja serwerów danych jest dowolna, dopóki serwer proxy potrafi się z nimi komunikować.
 
 \begin{figure}
 \centering
@@ -74,19 +74,19 @@ Na rysunku \hyperref[fig:swift_arch]{rysunku \ref{fig:swift_arch}} została prze
 
 \subsection{Replikacja}\label{sec:replikacja}
 
-Replikacja w Swifcie podzielona jest na dwa moduły. Jeden odpowiada za replikację obiektów (danych), drugi za replikację kontenerów i kont, czyli efektywnie baz danych. Oba moduły jednak polegają na zasadzie PUSH, czyli każdy serwer dba o to, aby jego dane lokalne jeśli są nowe, znalazły się na wszystkich replikach. Wysyłanie odbywa się poprzez pierścień, który decyduje które fizyczne serwery są replikami danego serwera. Mechanizm ten wygląda w ten sposób, ponieważ serwer nie wie skąd pobrać dane, a więc i gdzie są nowsze dane niż te które posiada. Wspomniany zostanie również mechanizm usuwania danych z chmury, który również jest częścią systemu replikacji, ponieważ jest on nieoczywisty. 
+Replikacja w Swifcie podzielona jest na dwa moduły. Jeden odpowiada za replikację obiektów (danych), drugi za replikację kontenerów i kont, czyli efektywnie baz danych. Oba moduły jednak polegają na zasadzie PUSH, czyli każdy serwer dba o to, aby jego dane lokalne jeśli są nowe, znalazły się na wszystkich replikach. Wysyłanie odbywa się poprzez pierścień, który decyduje które fizyczne serwery są replikami danego serwera. Mechanizm ten wygląda w ten sposób, ponieważ serwer nie wie skąd pobrać dane,~a więc i gdzie są nowsze dane niż te które posiada. Wspomniany zostanie również mechanizm usuwania danych z chmury, który również jest częścią systemu replikacji, ponieważ jest on nieoczywisty. 
 
 Trzeba zaznaczyć że prace nad modułem replikacji w Swifcie są aktualnie w fazie rozwojowej, więc większość informacji zawartej w tym rozdziale może się niedługo zmienić, bądź już jest nieaktualna. Niemniej ogólna idea zapewne pozostanie taka sama.
 
 \subsubsection{Bazy danych}\label{sub:bazy danych}
 
-W pierwszej kolejności serwery baz danych porównują hasze baz, jeśli się zgadzają, synchronizacja nie jest potrzebna. W przeciwnym przypadku synchronizowane są brakujące rekordy.
+W pierwszej kolejności serwery baz danych porównują sumy kontrolne baz, jeśli się zgadzają, synchronizacja nie jest potrzebna. W przeciwnym przypadku synchronizowane są brakujące rekordy.
 
 Serwery baz danych przechowują dodatkową bazę synchronizacji. W takiej bazie istnieje informacja, kiedy ostatnio serwer był synchronizowany z którymi bazami. Bazy rozpoznawane są po unikalnych w skali replikacji identyfikatorach. Jeżeli zdalna baza jest starsza, nowe rekordy są wysyłane. Po wysłaniu wszystkich rekordów cała baza synchronizacji wysyłana jest na zdalny serwer. W ten sposób informacja o synchronizacji z innymi bazami, przechodzi na serwer zdalny.
 
 \subsubsection{Obiekty}\label{sub:obiekty}
 
-Na serwerach obiektów również trzymane są hasze dla każdego katalogu z danymi. Jeżeli hasze się różnią, dane z danego katalogu są synchronizowane przy pomocy rsynca. Po takiej operacji nowe hasze są wyliczane na zdalnej maszynie.
+Na serwerach obiektów również trzymane są sumy kontrolne dla każdego katalogu z danymi. Jeżeli sumy się różnią, dane z danego katalogu są synchronizowane przy pomocy rsync. Po takiej operacji nowe wyliczane są nowe sumy kontrolne na zdalnej maszynie.
 
 \subsubsection{Usuwanie}\label{sub:usuwanie}
 
@@ -94,13 +94,13 @@ Kiedy z serwera obiektów usuwany jest plik, zamiast usunięcia go, stawiany jes
 
 \subsection{Autoryzacja}\label{sec:autoryzacja}
 
-Ponieważ autoryzacja w swifcie maja historyczne zaszłości i jest mocno związana z innymi systemami Rackspace'a, można ją przeprowadzać na kilka sposobów. Może być prowadzona poprzez zupełnie oddzielny system niezależny od swifta, bądź przez podsystem swifta nazywany Swauth. Ogólna koncepcja autoryzacji w systemie opiera się na tokenie autoryzacji, który dołączany jest do każdego żądania wysyłanego przez użytkownika. Token taki jest po prostu bliżej nie określonym stringiem. Z punktu widzenia swifta ważne jest jedynie aby móc go wysłać do systemu autoryzacji i otrzymać odpowiedź, czy token jest poprawny czy nie. Jeśli odpowiedź jest pozytywna, wraz z nią przychodzi informacja o czasie wygaśnięcia autoryzacji w sekundach. Przez ten czas swift przetrzymuje token jako poprawny. Autoryzacja jest pierwszą czynnością którą musi wykonać użytkownik systemu. Po zalogowaniu się w serwerze autoryzacyjnym, dostanie on token, który musi być dołączony do każdego zapytania do Swifta.
+Ponieważ autoryzacja w Swifcie ma historyczne zaszłości i jest mocno związana z innymi systemami Rackspace'a, można ją przeprowadzać na kilka sposobów. Może być prowadzona poprzez zupełnie oddzielny system niezależny od Swifta, bądź przez podsystem Swifta nazywany Swauth. Ogólna koncepcja autoryzacji w systemie opiera się na tokenie autoryzacji, który dołączany jest do każdego żądania wysyłanego przez użytkownika. Token taki jest po prostu bliżej nie określonym stringiem. Z punktu widzenia Swifta ważne jest jedynie aby móc go wysłać do systemu autoryzacji i otrzymać odpowiedź, czy token jest poprawny czy nie. Jeśli odpowiedź jest pozytywna, wraz z nią przychodzi informacja o czasie wygaśnięcia autoryzacji w sekundach. Przez ten czas Swift przetrzymuje token jako poprawny. Autoryzacja jest pierwszą czynnością którą musi wykonać użytkownik systemu. Po zalogowaniu się w serwerze autoryzacyjnym, dostanie on token, który musi być dołączony do każdego zapytania do Swifta.
 
-Wbudowany w swifta system autoryzacji Swauth pozwala dodatkowo na konta administracyjne. Kiedy normalni użytkownicy ograniczeni są do własnych kontenerów, administratorzy mogą operować na danych w całym systemie.
+Wbudowany w Swifta system autoryzacji Swauth pozwala dodatkowo na konta administracyjne. Kiedy normalni użytkownicy ograniczeni są do własnych kontenerów, administratorzy mogą operować na danych w całym systemie.
 
 \subsection{Segmentacja}\label{sec:segmentacja}
 
-Jak zostało już wcześniej wspomniane Swift miał swojego czasu ograniczenie na wielkość jednego pliku wynoszącą 5GB. Aktualnie ograniczenie to zostało zniesione, jednak ograniczenie na wielkość jednego pliku pozostaje i jest konfigurowalne. Domyślnie cały czas jest to 5GB. Aby poradzić sobie z tym ograniczeniem twórcy Swifta wprowadzili ideę segmentacji obiektów. Jeden plik dla użytkownika, może być przechowywany w chmurze jako dowolna ilość segmentów. Aby poradzić sobie z segmentacją, wraz z segmentami do Swifta wysyłany jest specjalny plik manifestu w którym przechowywane są informacje w którym kontenerze i z jakim prefiksem przechowywane są segmenty. Wszystkie segmenty muszą być przechowywane w tym samym kontenerze, jednak plik manifestu może być w innym. Dzięki temu obiekty segmentów nie zaśmiecają listingu bazowego kontenera, a plik manifestu udaje normalny obiekt.
+Jak zostało już wcześniej wspomniane Swift miał swojego czasu ograniczenie na wielkość jednego pliku wynoszącą 5GB. Aktualnie ograniczenie to zostało zniesione, jednak ograniczenie na wielkość jednego pliku pozostaje i jest konfigurowalne. Domyślnie cały czas jest to 5GB. Aby poradzić sobie z tym ograniczeniem twórcy Swifta wprowadzili ideę segmentacji obiektów. Jeden plik dla użytkownika, może być przechowywany w chmurze jako dowolna ilość segmentów. Aby poradzić sobie z segmentacją, wraz z segmentami do Swifta wysyłany jest specjalny plik manifestu w którym przechowywane są informacje w którym kontenerze i z jakim prefiksem przechowywane są segmenty. Wszystkie segmenty muszą być przechowywane w tym samym kontenerze, jednak plik manifestu może być w innym. Dzięki temu obiekty segmentów nie zaśmiecają listingu bazowego kontenera,~a plik manifestu udaje normalny obiekt.
 
 Dodatkową korzyścią płynącą z segmentacji jest współbieżne wysyłanie pliku przez serwery. Jeżeli np. segmenty zostaną rozprowadzone po różnych centrach danych, użytkownik może pobierać duży plik z prędkością sumaryczną oferowaną przez te serwerownie.
 
@@ -108,9 +108,9 @@ Dodatkową korzyścią płynącą z segmentacji jest współbieżne wysyłanie p
 
 Swift używa do konfiguracji zewnętrznej biblioteki pythona Paste Deploy~\cite{paste_deploy}, który implementuje standard WSGI odnośnie konfiguracji serwerów. Dokładny opis składni plików konfiguracyjnych znajduje się w dokumentacji tejże biblioteki pod adresem \url{http://pythonpaste.org/deploy/#the-config-file}. 
 
-Konfiguracja każdego serwera znajduje się w pliku \texttt{/etc/swift/<server>-server.conf}, gdzie \texttt{server}em może być proxy, object, container bądź account, w zależności który serwer chcemy skonfigurować. Na jednej maszynie mogą się znajdować pliki konfiguracyjne dla wszystkich rodzajów serwerów. Jeżeli chcemy skonfigurować więcej niż jeden serwer danego rodzaju na tej samej maszynie, należy utworzyć katalog \texttt{/etc/swift/<server>-server/}, a następnie konfiguracje umieścić w nim w plikach o nazwach \texttt{<n>.conf} gdzie \texttt{n} to kolejne liczby naturalne. W tych plikach znajdują się wszystkie opcje konfiguracyjne serwerów w formacie wspomnianym powyżej. Dokładny spis wszystkich opcji znajduje się pod adresem \url{http://swift.openstack.org/deployment_guide.html#general-server-configuration}.
+Konfiguracja każdego serwera znajduje się w pliku \texttt{/etc/swift/<server>-server.conf}, gdzie \texttt{server}em może być proxy, object, container bądź account, w zależności który serwer chcemy skonfigurować. Na jednej maszynie mogą się znajdować pliki konfiguracyjne dla wszystkich rodzajów serwerów. Jeżeli chcemy skonfigurować więcej niż jeden serwer danego rodzaju na tej samej maszynie, należy utworzyć katalog \texttt{/etc/swift/<server>-server/},~a następnie konfiguracje umieścić w nim w plikach o nazwach \texttt{<n>.conf} gdzie \texttt{n} to kolejne liczby naturalne. W tych plikach znajdują się wszystkie opcje konfiguracyjne serwerów w formacie wspomnianym powyżej. Dokładny spis wszystkich opcji znajduje się pod adresem \url{http://swift.openstack.org/deployment_guide.html#general-server-configuration}.
 
-Dodatkowo jeśli chcemy skonfigurować serwer obiektów, musimy w nim zdefiniować które dyski będą używane do przechowywania danych. W parametrze \texttt{devices} ustawiamy katalog w którym chcemy przechowywać dane. W tym katalogu tworzymy foldery i w każdym folderze montujemy jedną partycje. Dobrą praktyką jest nadawanie katalogom nazw urządzeń systemowych.
+Dodatkowo jeśli chcemy skonfigurować serwer obiektów, musimy w nim zdefiniować które dyski będą używane do przechowywania danych. W parametrze \texttt{devices} ustawiamy katalog w którym chcemy przechowywać dane. W tym katalogu tworzymy foldery~i~w każdym folderze montujemy jedną partycje. Dobrą praktyką jest nadawanie katalogom nazw urządzeń systemowych.
 
 \section{Instalacja}\label{sec:instalacja}
 
