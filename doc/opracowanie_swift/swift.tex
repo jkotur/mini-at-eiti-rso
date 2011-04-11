@@ -19,9 +19,9 @@
 
 OpenStack Storage, inaczej nazywany Swift, jest systemem chmurowym pozwalającym na przechowywanie danych. Długo obiekty które są przechowywane przez system miały ograniczenie wielkości 5GB, jednak niedawno twórcom udało się z nim poradzić. Swift Pozwala on na przechowywanie płaskiej struktury obiektów (plików), grupowanych w kontenerach. Każdy użytkownik może posiadać dowolnie dużo kontenerów, a w nich dowolnie dużo plików. W zależności od konfiguracji system pozwala na tworzenie kopii zapasowych, oraz automatyczne zarządzanie tymi kopiami. API systemu oparte jest na prostych wywołaniach PUT, GET i paru innych.
 
-\section{Możliwości}\label{sec:możliwości}
+%\section{Możliwości}\label{sec:możliwości}
 
-\section{Zastosowania}\label{sec:zastosowania}
+%\section{Zastosowania}\label{sec:zastosowania}
 
 \section{Architektura}\label{sec:architektura}
 
@@ -56,6 +56,18 @@ Aby zapewnić spójność i aktualność danych w całym systemie, ciągle chodz
 \item[Urządzenie] -- lokalizacja fizycznego dysku w chmurze z dodatkowymi danymi na jego temat. Na podstawie danych zawartych w opisie urządzenia pierścień zna dokładne miejsce gdzie ma zostać wysłane zapytanie, oraz może dynamicznie wybierać lepsze, bądź po prostu aktualnie aktywne urządzenia.
 \end{description}
 
+\subsection{Przykładowa konfiguracja}\label{sub:przykladowa konfiguracja}
+
+Na rysunku \hyperref[fig:swift_arch]{rysunku \ref{fig:swift_arch}} została przedstawiona najprostsza konfiguracja chmury Swifta. Serwer autoryzacji, oraz serwer proxy muszą być dostępne dla użytkowników, aby mogli oni wysyłać zapytania do chmury. Użytkownik najpierw odpytuje serwer autoryzacji o swój token, następnie cała komunikacja odbywa się za pośrednictwem serwera proxy. Serwery opisane na obrazku jako storage, mogą być serwerami kont, kontenerów lub obiektów, lub wszystkimi naraz. Ich połączenie jest już dowolne.
+
+\begin{figure}
+\centering
+	\includegraphics[width=0.75\textwidth]{swift_install_arch.png}
+	\caption{Przykladowa architektura swifta~\cite{swift_manual}}
+\label{fig:swift_arch}
+\end{figure}
+
+
 \subsection{Replikacja}\label{sec:replikacja}
 
 Replikacja w Swifcie podzielona jest na dwa moduły. Jeden odpowiada za replikację obiektów (danych), drugi za replikację kontenerów i kont, czyli po efektywnie baz danych. Oba moduły jednak polegają na zasadzie PUSH, czyli każdy serwer dba o to, aby jego dane lokalne jeśli są nowe, znalazły się na wszystkich replikach. Wysyłanie odbywa się poprzez pierścień, który decyduje które serwery są faktycznie replikami danego serwera. Mechanizm ten wygląda w ten sposób, ponieważ serwer nie wie skąd pobrać dane, a więc i gdzie są nowsze dane niż te które posiada. Warto jeszcze wspomnieć o mechanizmie usuwania danych z chmury, ponieważ jest on nieoczywisty. 
@@ -89,6 +101,20 @@ Jak zostało już wcześniej wspomniane OpenStack miał swojego czasu ograniczen
 Dodatkową korzyścią płynącą z segmentacji jest współbieżne wysyłanie pliku przez serwery. Jeżeli np. segmenty zostaną rozprowadzone po różnych centrach danych, użytkownik może pobierać duży plik z prędkością sumaryczną oferowaną przez te serwerownie.
 
 \section{Konfiguracja}\label{sec:konfiguracja}
+
+Swift używa do konfiguracji zewnętrznej biblioteki pythona Paste Deploy~\cite{paste_deploy}, który implementuje standard WSGI odnośnie konfiguracji serwerów. Dokładny opis składni plików konfiguracyjnych znajduje się w dokumentacji tejże biblioteki pod adresem \url{http://pythonpaste.org/deploy/#the-config-file}. 
+
+Konfiguracja każdego serwera znajduje się w pliku \texttt{/etc/swift/<server-name>-server.conf}, gdzie nazwą serwera może być object, container bądź account, w zależności który serwer chcemy skonfigurować. W tych plikach znajdują się wszystkie opcje konfiguracyjne serwerów w formacie wspomnianym powyżej. Dokładny spis wszystkich opcji znajduje się pod adresem \url{http://swift.openstack.org/deployment_guide.html#general-server-configuration}.
+
+Dodatkowo jeśli chcemy skonfigurować serwer obiektów, musimy w nim zdefiniować które dyski będą używane do przechowywania danych. W parametrze \texttt{devices} ustawiamy katalog w którym chcemy przechowywać dane. W tym katalogu tworzymy foldery i w każdym folderze montujemy jedną partycje. Dobrą praktyką jest nadawanie katalogom nazw urządzeń systemowych.
+
+\section{Instalacja}\label{sec:instalacja}
+
+Dokładny opis instalacji Swifta, dedykowany dla programistów, dobrze opisany jest w dokumentacji~\cite{swift_doc}. Po wykonaniu instrukcji zawartych w tym opisie otrzymujemy działające środowisko programistyczne na jednej maszynie, symulującej chmurę złożoną z czterech serwerów.
+
+Jeśli chcemy skonfigurować kilka maszyn, na każdej z nich trzeba zainstalować Swifta, a pliki konfiguracyjne odpowiednio rozproszyć. 
+
+Opis ten jest dostępny pod adresem: \url{http://swift.openstack.org/development_saio.html}
 
 \bibliographystyle{../plplainurl}
 \bibliography{../bibliografia}
