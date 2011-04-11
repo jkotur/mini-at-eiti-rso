@@ -1,0 +1,80 @@
+\input{../header.tex}
+
+\hypersetup{
+	unicode = true,
+	pdfauthor = {Jakub Kotur},
+}
+
+\title{OpenStack Storage (Swift)}
+\author{Jakub Kotur}
+
+\hyphenation{IaaS Rack-Space}
+
+\begin{document}
+\maketitle
+
+\section{Wstęp}
+\paragraph{}
+
+\nocite{openstack}
+
+OpenStack Storage, inaczej nazywany Swift, jest systemem chmurowym pozwalającym na przechowywanie danych. Długo obiekty które są przechowywane przez system miały ograniczenie wielkości 5GB, jednak niedawno twórcom udało się z nim poradzić. Swift Pozwala on na przechowywanie płaskiej struktury obiektów (plików), grupowanych w kontenerach. Każdy użytkownik może posiadać dowolnie dużo kontenerów, a w nich dowolnie dużo plików. W zależności od konfiguracji system pozwala na tworzenie kopii zapasowych, oraz automatyczne zarządzanie tymi kopiami. API systemu oparte jest na prostych wywołaniach PUT, GET i paru innych.
+
+\section{Architektura}\label{sec:architektura}
+\paragraph{}
+
+System posiada szereg jednostek z których każda odpowiedzialna jest za konkretne zadanie. Jednostką taką może być zarówno serwer, proces jak i struktura danych, opisujące działanie systemu. W poniższym rozdziale zostaną pokrótce przedstawione wszystkie jednostki. Dokładny opis wybranych jednostek znajduje się w późniejszych rozdziałach.
+
+\subsection{Serwery}\label{sub:serwery}
+\paragraph{}
+
+\begin{description}
+\item[Serwer proxy] -- serwer odpowiedzialny za kontrolę nad innymi serwerami chmury. Do niego wysyłane są zapytanie API, które następnie kieruje do odpowiednich serwerów. Jest również odpowiedzialny za kontrolę błędów, np. jeśli okaże się że wywołany serwer jest niedostępny, to właśnie serwer proxy znajduje jego serwer lustrzany i wysyła nowe zapytanie.
+\item[Serwer obiektów] -- prosty serwer przechowujący pliki jako dane binarne. Dodatkowe metadane o plikach przechowywane są w rozszerzonych atrybutach plików. W zależności od ustawień może być replikowany, tak że kilka serwerów przechowuje takie same dane.
+\item[Serwer kontenerów] -- bardzo podobny do serwera obiektów, jednak przechowujący informacje o tym co znajduje się wa danym kontenerze. Dane przechowywane są w bazie sqlite jako szereg wpisów z nazwami obiektów. Analogicznie do serwera obiektów można tworzyć repliki tych serwerów.
+\item[Serwer kont] -- identyczny z serwerem kontenerów, tylko przechowuje dane o kontenerach które posiada dane konto.
+\end{description}
+
+\subsection{Procesy}\label{sub:procesy}
+\paragraph{}
+
+Aby zapewnić spójność i aktualność danych w całym systemie, ciągle chodzą w nim trzy procesy. Wszystkie trzy są odpowiedzialne za to zadanie, jednak uaktywniają się w różnych sytuacjach.
+
+\begin{description}
+\item[Aktualizatory] -- proces dbający o to, aby aktualizować dane na serwerach. Jeśli z jakiegoś powodu aktualizacja danych do serwera nie zostanie wysłana, albo przez serwer odebrana, zostaje ona zakolejkowana. Po z góry ustalonym czasie próba aktualizacji jest ponawiana.
+\item[Audytory] -- proces sprawdzający spójność danych w chmurze. Jeśli napotka zepsuty plik, stara się go naprawić używając repliki. Jeśli jest to niemożliwe, błąd jest logowany. 
+\item[Replikatory] -- również dbają o spójność danych, jednak ich zadaniem jest utrzymywanie jednakowej wersji na wszystkich serwerach. Jeśli któryś z serwerów nie ma najnowszej wersji, jego dane aktualizowane są do niej.
+\item[Żniwiar] -- albo ładniej, żniwiarz użytkowników, jest procesem który dba o usuwanie danych, które należały do użytkowników usuniętych z systemu. Jeśli uda mu się usunąć wszystkie pliki, oraz kontenery użytkownika, kasuje tego użytkownika z bazy.
+\end{description}
+
+\subsection{Struktury danych}\label{sub:struktury danych}
+
+\begin{description}
+\item[Pierścień] -- zestaw mapowań z kluczy obiektów OpenStacka na fizyczne urządzenia. Dzięki pierścieniowi serwer proxy wie do którego serwera obiektów wysłać zapytanie. Istnieją oddzielne pierścienie dla obiektów, kontenerów i kont, jednak są one identyczne. W pierścieniu można ustawić poziom replikacji serwerów.
+\item[Urządzenie] -- lokalizacja fizycznego dysku w chmurze z dodatkowymi danymi na jego temat. Na podstawie danych zawartych w opisie urządzenia pierścień zna dokładne miejsce gdzie ma zostać wysłane zapytanie, oraz może dynamicznie wybierać lepsze, bądź po prostu aktualnie aktywne urządzenia.
+\end{description}
+
+\section{Możliwości}\label{sec:możliwości}
+
+\section{Zastosowania}\label{sec:zastosowania}
+
+\subsection{Usuwanie}\label{sub:usuwanie}
+\paragraph{}
+
+Kiedy z serwera obiektów usuwany jest plik, zamiast usunięcia go, stawiany jest specjalny plik, będący znacznikiem usunięcia. Taki plik ma ten sam identyfikator co poprzednie dane, jednak ma nowszą wersję. Dzięki temu proces odpowiedzialny za integralność danych w chmurze rozpropaguje taki znacznik po wszystkich replikach. Znacznik jest usuwany po czasie zwanym oknem spójności, czyli po czasie po którym jesteśmy pewni że dany plik został rozpowszechniony na wszystkie serwery.
+
+\section{Autoryzacja}\label{sec:autoryzacja}
+\paragraph{}
+
+Ponieważ autoryzacja w swifcie maja historyczne zaszłości i jest mocno związana z innymi systemami rackspace'a, można ją przeprowadzać na kilka sposobów. Może być prowadzona poprzez zupełnie oddzielny system niezależny od swifta, bądź przez podsystem swifta nazywany Swauth. Ogólna koncepcja autoryzacji w systemie opiera się na tokenie autoryzacji, który dołączany jest do każdego żądania wysyłanego przez użytkownika. Token taki jest po prostu stringiem. Z punktu widzenia swifta ważne jest jedynie aby móc go wysłać do systemu autoryzacji i otrzymać odpowiedź, czy token jest poprawny czy nie. Jeśli odpowiedź jest pozytywna, wraz z nią przychodzi informacja o czasie wygaśnięcia autoryzacji w sekundach. Przez ten czas swift przetrzymuje token jako poprawny. Autoryzacja jest pierwszą czynnością którą musi wykonać użytkownik systemu. Po zalogowaniu się w serwerze autoryzacyjnym, dostanie on token, który musi być dołączony do każdego zapytania.
+
+\paragraph{}
+
+Wbudowany w swifta system autoryzacji Swauth pozwala dodatkowo na konta administracyjne. Kiedy normalni użytkownicy ograniczeni są do własnych kontenerów, administratorzy mogą operować na danych w całym systemie.
+
+\section{Konfiguracja}\label{sec:konfiguracja}
+
+\bibliographystyle{../plplainurl}
+\bibliography{../bibliografia}
+	
+\end{document}
