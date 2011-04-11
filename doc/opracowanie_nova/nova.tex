@@ -50,24 +50,26 @@ Istnieje szereg parametrów konfigurowalnych per projekt\cite{nova_manual}:
 Istnieje kilka rodzajów komponentów, z których składa się cloud OpenStack Compute\cite{nova_manual}.
 Aktualnie prawie każdy z nich - poza bazą danych - jest łatwo skalowalny horyzontalnie, tzn. można w razie potrzeby dołożyć więcej elementów danego typu. Każdy z nich może być uruchamiany na osobnej maszynie, nic nie stoi też na przeszkodzie, aby je wszystkie uruchomić na jednej maszynie.
 
-\subsection{Kolejka}
+\begin{description}
+
+\item[Kolejka]
 Kolejka komunikatów, służąca do przesyłania wiadomości między wszystkimi pozostałymi komponentami. Nova korzysta z kolejki RabbitMQ.
 
-\subsection{API server}
+\item[API server]
 Jedyny serwis dostępny z zewnątrz - przez niego przechodzą wszystkie żądania uruchomienia/wstrzymania maszyn wirtualnych. Komunikacja z nim odbywa się poprzez protokół HTTP. 
 
-\subsection{Compute controller}
+\item[Compute controller]
 Serwer roboczy, na którym uruchamiane są maszyny wirtualne.
 
-\subsection{Auth manager}
+\item[Auth manager]
 Autoryzuje oraz uwierzytelnia użytkowników. Przechowuje informacje o istniejących projektach i rolach.
 
-\subsection{Volume controller}
+\item[Volume controller]
 Zarządza wirtualnymi dyskami. Każdy taki dysk można podłączyć do dowolnej działającej instancji maszyny wirtualnej. Serwis ten korzysta z iSCSI oraz Linuxowych LVM (Logical Volume Manager).
 
 Jeden taki wirtualny dysk może być podłączony wyłącznie do jednej działającej instancji w danej chwili.
 
-\subsection{Network controller}
+\item[Network controller]
 Zajmuje się konfiguracją sieci. Może działać w trzech trybach:
 \begin{itemize}
 \item Flat -- 'Płaska' konfiguracja, ze statyczną konfiguracją adresów IP
@@ -75,22 +77,24 @@ Zajmuje się konfiguracją sieci. Może działać w trzech trybach:
 \item VLAN -- Każdy projekt ma swój VLAN, w którym działa DHCP. Konfiguracja domyślna.
 \end{itemize}
 
-\subsection{Scheduler}
+\item[Scheduler]
 Komponent decydujący, który {\it compute controller} powinien obsłużyć maszynę wirtualną.
 
-\subsection{Object storage}
+\item[Object storage]
 Opcjonalny komponent, udostępniający obrazy maszyn wirtualnych. Zamiast niego, Compute może wykorzystywać serwer Glance.
+
+\end{description}
 
 \section{Wirtualizacja}
 
 Nova pozwala na wykorzystanie poniższych typów wirtualizacji\cite{nova_manual}:
 
 \begin{itemize}
-\item{KVM}
-\item{UML}
-\item{XEN}
-\item{Hyper-V}
-\item{QEMU}
+\item KVM (Kernel-based Virtual Machine) -- rozwiązanie Linuxowe, korzystające ze wsparcia sprzętowego
+\item UML (User Mode Linux) -- także Linuxowe rozwiązanie, jedno z pierwszych, niezbyt szybkie
+\item XEN -- OpenSource'owy monitor maszyn wirtualnych
+\item Hyper-V -- rozwiązanie wirtualizacyjne od Microsoftu
+\item QEMU -- szybki, przenośny emulator OpenSource'owy
 \end{itemize}
 
 Obrazy maszyn wirtualnych mogą być przechowywane przy użyciu Glance (OpenStack Imaging Service) lub nova-objectstore.
