@@ -1,0 +1,77 @@
+\input{../header.tex}
+
+\hypersetup{
+	unicode = true,
+	pdfauthor = {Piotr Tomasz Monarski},
+}
+
+\title{Zwinne zarządzanie zespołem programistycznym}
+\author{Piotr Tomasz Monarski}
+
+\hyphenation{IaaS Rack-Space}
+
+\begin{document}
+\maketitle
+
+\section{Wstęp}
+
+Zarządzanie projektami oraz kierowanie zespołami programistów od zawsze było wyzwaniem. Na przestrzenie krótkiej ale intensywnej historii wytwarzania oprogramowania, opracowano liczne modele i metodologie w celu zmaksymalizowania efektywności. Współcześnie najpopularniejszy jest model kaskadowy. Sprawdza się on jedynie w sytuacjach gdy posiadamy wszelką wiedzę od początku i nie będą zachodziły zmiany w specyfikacji poza fazą analizy. W praktyce takie podejście jest mało efektywne. Alternatywą jest między innymi coraz bardziej popularne zwinne programowanie. O zaletach, wadach i praktycznych zastosowaniach tej metodologi będzie motywem przewodnim tej pracy. 
+
+\section{Programowanie zwinne}
+
+W niedalekiej przeszłości programiści dostrzegali problemy i niedoskonałości dostępnych metod wytwarzania oprogramowania. Głównym ich problemem była mała elastyczność na zmiany wymagań oraz ograniczony kontakt z odbiorcą. Z faktem, że odbiorca może dopiero zaakceptować i przedstawić swoje uwagi w ostatnich etapach wytwarzania oprogramowania, związane jest dużo ryzyko prowadzenia projektów w ten sposób. Aby rozwiązać ten problem światowe sławy opracowały w 2001 roku manifest zwinnego programowania \cite{agile_manifesto}. Zasady w nim zawarte są jedynie wskazówkami na których to opracowano takie metodyki jak: Scrum, Kanban czy eXtream Programming. W ramach tej pracy zostanie przybliżona jedynie metodyka Scrum.
+
+\subsection{Scrum !?}
+
+Metodykę Scrum można najprościej przestawić wyjaśniając czym jest tablica (backlog), tablica iteracji (iteration backlog) oraz iteracja (iteration). Dokładniejszy opis tej metodologi dostępny jest w licznych publikacja i opracowaniach \cite{scrumalliance} \cite{scrum_wiki}. 
+
+\begin{description}
+
+\item[Tablica (Backlog)] Specyfikacja, wymagania, błędy zostają przedstawione jako wpisy na tablicy. Tablica zawiera informacje o zadaniach do wykonania w ramach projektu. Dodatkowo należy starać się aby zadania były jak najdrobniejsze, atomowe. Trudność zadań jest wyceniania na podstawie doświadczenia programistów.
+
+\item[Tablica iteracji (iteration backlog)] Dostępne zadania na Tablicy sortujemy od najtrudniejszych i najważniejszych. Dalej zgodnie z możliwościami zespołu rozdzielane są do tablic iteracji. Tablica iteracji zawiera zadania jakie mają zostać wykonane w ramach jednej iteracji. 
+
+\item[Iteracja (iteration)] Jest to proces 1-3 tygodniowy złożony ze wszystkich faz wytwarzania oprogramowania. Poszczególne zadania z tablicy iteracji są analizowane, dalej projektowane rozwiązania, testowane i implementowane. Na koniec iteracji oczekiwany jest gotowy produkt zawierający funkcjonalność przewidzianą na daną iteracja, udokumentowaną i przetestowaną.
+
+\end{description}
+
+\subsection{Narzędzia}
+
+Przy pracy kierownika zespołu jak i kierownika projektu ważne są narzędzia ułatwiające pracę. Domyślnymi narzędziami w metodzie scrum są fizyczne tablice i karteczki. Niestety z powodów praktycznych o pracy zdalnej zespołu takie rozwiązanie należy odrzucić. W sieci dostępne są liczne komercyjne narzędzia. Większość z nich udostępnia darmowe wersje swojego oprogramowania z licznymi ograniczeniami, ale w praktyce wystarczające dla początkujących małych zespołów.  
+
+
+Wybór narzędzia dla zespołu ponad 5 osobowego jest bardzo ograniczony ze względu na licencje darmowych wersji dostępnych narzędzi. Jednym z nielicznych i najbogatszym w tej grupie jest narzędzie VersionOne \cite{versionone}.
+ 
+\section{Zwinne podejście do projektu z RSO}
+
+Projekty na studiach mają to do siebie, że zazwyczaj są z góry dobrze określone i wszelkie informacje o zadania dostępne są już w fazie analizy. Dlatego podejście kaskadowe może się sprawdzić i jest głównym wyborem studentów jak i prowadzących. Inną zaletą metod kaskadowych jest łatwość śledzenia i ocenienia pracy studentów, ze względu na odseparowane wyraźne etapy powstawania aplikacji.
+
+
+Pomimo zalet w projektach uczelnianych modelu kaskadowego, jest on mało skutecznym w realnych zastosowaniach. Z tej przyczyny prace nad projektem będą zgodne ze zasadami zwinnego oprogramowani.
+
+\subsection{Projekty poznawczo-badawcze}
+
+Na pierwszy etapie projektu z RSO, zadaniem zespołu było zapoznanie się ze środowiskiem chmurowym OpenStack. Był to bardzo otwarty problem bez wyróżnionych konkretnych zadań. Dodatkowo członkowie zespołu musieli przygotować opracowanie tego co dowiedzieli się o projekcie. Żeby można było przygotować spójną i logiczną dokumentację każdy z członków otrzymał do opracowania pewien blok zagadnień. W praktyce wpisy na tablicy były bardzo ogólne, jak: ,,Opracowanie Swift'' czy ,,Opracowanie API OpenStack'u''. Oszacowanie poszczególnych zadań również było nie możliwe ze względu na otwartość problemu i małe doświadczenie zespołu. 
+
+W praktyce na pierwszym etapie projektu nie wykorzystaliśmy potencjału wybranej przez nas metodologii. Wykorzystaliśmy jedynie tablice z rozpisaniem poznawczych zadań i przypisaniu ich do pierwszej iteracji.
+
+\subsection{Kolejne punkty kontrolne}
+
+Kolejne punkty kontrolne (mile stone's) wymagają ukończenie kolejnych etapów w metodyce kaskadowej. Od tego momentu możliwe jest wdrożenie właściwej metodologi zwinnej, zorientowanej na wykonanie konkretnego zadania, projektu.
+
+\subsection{Ocena pracy zespołu}
+
+Podstawowym problemem metodyki zwinnej jest ocena przez prowadzących przedmiot postępu w pracy. Większość metod oceniania zakłada model kaskadowy. 
+
+Metodyki zwinne są nastawione na badanie postępu pracy poprzez śledzenie ilości wykonanych zadań (z uwzględnieniem ich wyceny) na przestrzeni czasu. Inną cechą zwinnego programowania jest równomierna praca zespołu. Takie cechy tej metody stanowią bardzo dobrą podstawę do oceny pracy zespołu. Propozycje oceniania przez prowadzących zwinnych zespołów zostały przedstawione dalej w tekście.
+
+\subsubsection{Prowadzący == Klient}
+
+
+
+
+\bibliographystyle{../plplainurl}
+\bibliography{../bibliografia}
+
+\end{document}
+
