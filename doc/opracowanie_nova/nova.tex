@@ -15,35 +15,35 @@
 \maketitle
 
 \section{Wstęp}
-Obecnie często mamy do czynienia z sytuacją, gdzie serwer, świadczący pewną usługę, jest w pełni obciążony tylko okresowo lub wcale. Przeniesienie takiego serwera na maszynę wirtualną oraz zgrupowanie go z innymi pozwala rozwiązać ten problem. Możemy dzięki temu uruchomić dużą ilość maszyn wirtualnych na mniejszej ilości maszyn fizycznych.
+Obecnie często mamy do czynienia z~sytuacją, gdzie serwer, świadczący pewną usługę, jest w~pełni obciążony tylko okresowo lub wcale. Przeniesienie takiego serwera na maszynę wirtualną oraz zgrupowanie go z~innymi pozwala rozwiązać ten problem. Możemy dzięki temu uruchomić dużą ilość maszyn wirtualnych na mniejszej ilości maszyn fizycznych.
 
 Projekt Nova (czyli OpenStack Compute) jest implementacją takiej infrastruktury. Poniższy dokument ma na celu określenie funkcjonalności oraz możliwości konfiguracji projektu OpenStack Compute.
 
 \section{Możliwości}
-Nova realizuje model IaaS -- Infrastructure as a Service (infrastruktura jako usługa). W modelu tym dostawca posiada infrastrukturę, w ramach której klient płaci za używaną przez siebie moc obliczeniową oraz przestrzeń dyskową. W przypadku obliczeń w chmurze, klient płaci za faktyczną ilość użytych zasobów\cite{hansen11}, nie za wartość nominalną, jak ma to miejsce w przypadku fizycznych serwerów. 
+Nova realizuje model IaaS -- Infrastructure as a~Service (infrastruktura jako usługa). W modelu tym dostawca posiada infrastrukturę, w~ramach której klient płaci za używaną przez siebie moc obliczeniową oraz przestrzeń dyskową. W przypadku obliczeń w~chmurze, klient płaci za faktyczną ilość użytych zasobów\cite{hansen11}, nie za wartość nominalną, jak ma to miejsce w~przypadku fizycznych serwerów. 
 
-Projekt ten dostarcza nam szereg funkcjonalności, które pomagają w realizacji obliczeń w chmurze. Mamy możliwość konfiguracji wielu parametrów -- od uprawnień użytkowników zaczynając, na topologii fizycznej tegoż cloud'a kończąc.
+Projekt ten dostarcza nam szereg funkcjonalności, które pomagają w~realizacji obliczeń w~chmurze. Mamy możliwość konfiguracji wielu parametrów -- od uprawnień użytkowników zaczynając, na topologii fizycznej tegoż cloud'a kończąc.
 
 \section{Uprawnienia}
 
-Wprowadzony jest podział użytkowników na role oraz projekty. W oparciu o nie określane są uprawnienia.
+Wprowadzony jest podział użytkowników na role oraz projekty. W oparciu o~nie określane są uprawnienia.
 
 Mamy pięć ról do przydzielania użytkownikom\cite{nova_manual}:
 
 \begin{itemize}
 \item Cloud Administrator -- pełen zestaw uprawnień
 \item IT Security -- umożliwia izolowanie instancji (działających maszyn wirtualnych)
-\item Project Manager -- możliwość dodawania użytkowników do projektu, a także włączania/wyłączania instancji maszyn wirtualnych w projekcie
-\item Network Administrator -- możliwość przypisywania publicznych adresów IP i modyfikacji ustawień firewalla
+\item Project Manager -- możliwość dodawania użytkowników do projektu, a~także włączania/wyłączania instancji maszyn wirtualnych w~projekcie
+\item Network Administrator -- możliwość przypisywania publicznych adresów IP i~modyfikacji ustawień firewalla
 \item Developer -- domyślna, standardowa rola
 \end{itemize}
 
-Dodatkowo, OpenStack Compute określa pojęcie projektu. Projekty grupują zasoby i użytkowników, którzy mają do nich dostęp.
+Dodatkowo, OpenStack Compute określa pojęcie projektu. Projekty grupują zasoby i~użytkowników, którzy mają do nich dostęp.
 
 Istnieje szereg parametrów konfigurowalnych per projekt\cite{nova_manual}:
 
 \begin{itemize}
-\item Ilość wirtualnych dysków twardych w projekcie
+\item Ilość wirtualnych dysków twardych w~projekcie
 \item Sumaryczny rozmiar dysków wirtualnych
 \item Dopuszczalna ilość działających jednocześnie maszyn wirtualnych
 \item Ilość alokowanych rdzeni procesora
@@ -52,34 +52,34 @@ Istnieje szereg parametrów konfigurowalnych per projekt\cite{nova_manual}:
 
 \section{Komponenty}
 
-Istnieje kilka rodzajów komponentów, z których składa się cloud OpenStack Compute\cite{nova_manual}.
-Aktualnie prawie każdy z nich - poza bazą danych - jest łatwo skalowalny horyzontalnie, tzn. można w razie potrzeby dołożyć więcej elementów danego typu. Każdy z nich może być uruchamiany na osobnej maszynie, nic nie stoi też na przeszkodzie, aby je wszystkie uruchomić na jednej maszynie.
+Istnieje kilka rodzajów komponentów, z~których składa się cloud OpenStack Compute\cite{nova_manual}.
+Aktualnie prawie każdy z~nich - poza bazą danych - jest łatwo skalowalny horyzontalnie, tzn. można w~razie potrzeby dołożyć więcej elementów danego typu. Każdy z~nich może być uruchamiany na osobnej maszynie, nic nie stoi też na przeszkodzie, aby je wszystkie uruchomić na jednej maszynie.
 
 \begin{description}
 
 \item[Kolejka]
-Kolejka komunikatów, służąca do przesyłania wiadomości między wszystkimi pozostałymi komponentami. Nova korzysta z kolejki RabbitMQ.
+Kolejka komunikatów, służąca do przesyłania wiadomości między wszystkimi pozostałymi komponentami. Nova korzysta z~kolejki RabbitMQ.
 
 \item[API server]
-Jedyny serwis dostępny z zewnątrz - przez niego przechodzą wszystkie żądania uruchomienia/wstrzymania maszyn wirtualnych. Komunikacja z nim odbywa się poprzez protokół HTTP. 
+Jedyny serwis dostępny z~zewnątrz - przez niego przechodzą wszystkie żądania uruchomienia/wstrzymania maszyn wirtualnych. Komunikacja z~nim odbywa się poprzez protokół HTTP. 
 
 \item[Compute controller]
 Serwer roboczy, na którym uruchamiane są maszyny wirtualne.
 
 \item[Auth manager]
-Autoryzuje oraz uwierzytelnia użytkowników. Przechowuje informacje o istniejących projektach i rolach.
+Autoryzuje oraz uwierzytelnia użytkowników. Przechowuje informacje o~istniejących projektach i~rolach.
 
 \item[Volume controller]
-Zarządza wirtualnymi dyskami. Każdy taki dysk można podłączyć do dowolnej działającej instancji maszyny wirtualnej. Serwis ten korzysta z iSCSI oraz Linuxowych LVM (Logical Volume Manager).
+Zarządza wirtualnymi dyskami. Każdy taki dysk można podłączyć do dowolnej działającej instancji maszyny wirtualnej. Serwis ten korzysta z~iSCSI oraz Linuxowych LVM (Logical Volume Manager).
 
-Jeden taki wirtualny dysk może być podłączony wyłącznie do jednej działającej instancji w danej chwili.
+Jeden taki wirtualny dysk może być podłączony wyłącznie do jednej działającej instancji w~danej chwili.
 
 \item[Network controller]
-Zajmuje się konfiguracją sieci. Może działać w trzech trybach:
+Zajmuje się konfiguracją sieci. Może działać w~trzech trybach:
 \begin{itemize}
 \item Flat -- 'Płaska' konfiguracja, ze statyczną konfiguracją adresów IP
-\item FlatDHCP -- Jak wyżej, ale z serwerem DHCP.
-\item VLAN -- Każdy projekt ma swój VLAN, w którym działa DHCP. Konfiguracja domyślna.
+\item FlatDHCP -- Jak wyżej, ale z~serwerem DHCP.
+\item VLAN -- Każdy projekt ma swój VLAN, w~którym działa DHCP. Konfiguracja domyślna.
 \end{itemize}
 
 \item[Scheduler]
@@ -96,13 +96,22 @@ Nova pozwala na wykorzystanie poniższych typów wirtualizacji\cite{nova_manual}
 
 \begin{itemize}
 \item KVM (Kernel-based Virtual Machine) -- rozwiązanie Linuxowe, korzystające ze wsparcia sprzętowego
-\item UML (User Mode Linux) -- także Linuxowe rozwiązanie, jedno z pierwszych, niezbyt szybkie
+\item UML (User Mode Linux) -- także Linuxowe rozwiązanie, jedno z~pierwszych, niezbyt szybkie
 \item XEN -- OpenSource'owy monitor maszyn wirtualnych
 \item Hyper-V -- rozwiązanie wirtualizacyjne od Microsoftu
 \item QEMU -- szybki, przenośny emulator OpenSource'owy
 \end{itemize}
 
 Obrazy maszyn wirtualnych mogą być przechowywane przy użyciu Glance (OpenStack Imaging Service) lub nova-objectstore.
+
+\section{Instalacja}
+
+Dokumentacja Novy zawiera opis dwóch sposobów instalacji - ręcznej i~przez skrypt instalacyjny\cite{nova_manual}. Ta pierwsza umożliwia rzecz jasna większą kontrolę nad instalowanymi komponentami. Ta druga byłaby idealna do wypróbowania OpenStack'a ,,na szybko'', niestety nie zawsze działa. Po zainstalowaniu stabilnej wersji najnowszego Ubuntu (10.4 LTS) na maszynie wirtualnej, dokonaniu aktualizacji i~odpaleniu skryptu instalacyjnego, nie uzyskujemy zainstalowanej Novy. Ponadto skrypt ten nie informuje na koniec o~wystąpieniach błędów -- zamiast tego trzeba wyszukiwać wcześniej w~jego logach słowa { \it fail }. Niezależnie od przebiegu działania, na sam koniec dostajemy bowiem informację o~powodzeniu instalacji.
+W prawdziwych zastosowaniach i~tak używać będziemy konfiguracji ręcznej, aby dostroić serwisy Novy do swoich potrzeb.
+
+\section{Podsumowanie}
+
+Open Stack Compute pozwala na stworzenie i~zarządzanie infrastrukturą cloudową. Jest elastyczny, jeżeli chodzi o~topologię sieciową oraz rodzaj wykorzystywanej wirtualizacji. Kiedy uwzględnimy jeszcze podział na projekty i~role, dostaniemy produkt, który pozwala na jednoczesny rozwój zupełnie niezależnych projektów w~ramach tej samej infrastruktury.
 
 \bibliography{../bibliografia.bib}
 \bibliographystyle{../plplainurl}
