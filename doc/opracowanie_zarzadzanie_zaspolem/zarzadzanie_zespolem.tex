@@ -15,7 +15,7 @@
 
 \section{Wstęp}
 
-Zarządzanie projektami oraz kierowanie zespołami programistów od zawsze było wyzwaniem. Na przestrzenie krótkiej ale intensywnej historii wytwarzania oprogramowania, opracowano liczne modele i metodologie w celu zmaksymalizowania efektywności. Współcześnie najpopularniejszy jest model kaskadowy. Sprawdza się on jedynie w sytuacjach gdy posiadamy całą wiedzę od początku i nie będą zachodziły zmiany w specyfikacji programu poza fazą analizy. W praktyce takie podejście jest mało efektywne. Alternatywą jest między innymi coraz bardziej popularne zwinne programowanie. 
+Efektywne zarządzanie projektami oraz kierowanie zespołami programistów zawsze było istotnym zagadnieniem w procesie wytwarzania oprogramowania. Na przestrzenie krótkiej ale intensywnej historii wytwarzania oprogramowania, opracowano liczne modele i metodologie w celu zmaksymalizowania efektywności. Współcześnie najpopularniejszy jest model kaskadowy. Sprawdza się on jedynie w sytuacjach gdy posiadamy całą wiedzę od początku i nie będą zachodziły zmiany w specyfikacji programu poza fazą analizy. W praktyce takie podejście jest mało efektywne. Alternatywą jest między innymi coraz bardziej popularne zwinne programowanie. 
 
 \section{Programowanie zwinne}
 
@@ -23,21 +23,24 @@ W niedalekiej przeszłości programiści dostrzegali problemy i niedoskonałośc
 
 \subsection{Scrum !?}
 
-Metodykę Scrum można najprościej przestawić wyjaśniając czym jest tablica (backlog), tablica iteracji (iteration backlog) oraz iteracja (iteration). Stanowią one podstawowe narzędzia podczas pracy nad oprogramowaniem. Metodyka scrum jest bardzo ciekawym i szerokim zagadnieniem. Dokładniejszy opis tej metodologi dostępny jest w licznych publikacja i opracowaniach \cite{scrumalliance} \cite{scrum_wiki}. 
+Metodykę Scrum można najprościej przestawić wyjaśniając czym jest tablica (backlog), tablica iteracji (iteration backlog) oraz iteracja (iteration). Stanowią one podstawowe narzędzia podczas pracy nad oprogramowaniem. W celu zgłębienia się w tą zwinną metodykę można zacząć od standardowych pozycji \cite{scrumalliance} \cite{scrum_wiki}. Niemożna jednak zapominać, że scrum w sam sobie jest otwarty na modyfikację. Z Licznymi publikacjami i opracowaniami dotyczącymi wspomnianej metodologii i jej wariantów można zapoznać się na blogach programistów.  
 
 \begin{description}
 
-\item[Tablica (Backlog)] Specyfikacja, wymagania, błędy zostają przedstawione jako wpisy na tablicy. Tablica zawiera informacje o zadaniach do wykonania w ramach projektu. Zadania są dodatkowo opisane ważnością i trudnością zadania. Dodatkowo należy starać się aby zadania były jak najdrobniejsze, atomowe. Trudność zadań jest wyceniania na podstawie doświadczenia programistów.
+\item[Tablica (Backlog)]\hfill
+Specyfikacja, wymagania, błędy zostają przedstawione jako wpisy na tablicy. Tablica zawiera informacje o zadaniach do wykonania w ramach projektu. Zadania są dodatkowo opisane ważnością i trudnością zadania. Dodatkowo należy starać się aby zadania były jak najdrobniejsze, atomowe. Trudność zadań jest wyceniania na podstawie doświadczenia programistów.
 
-\item[Tablica iteracji (iteration backlog)] Dostępne zadania na Tablicy sortujemy od najtrudniejszych i najważniejszych. Dalej zgodnie z możliwościami (wydajnością) zespołu rozdzielane są do tablic iteracji. Tablica iteracji zawiera zadania jakie mają zostać wykonane w ramach jednej iteracji. 
+\item[Tablica iteracji (iteration backlog)]\hfill
+Dostępne zadania na Tablicy sortujemy od najtrudniejszych i najważniejszych. Dalej zgodnie z możliwościami (wydajnością) zespołu rozdzielane są do tablic iteracji. Tablica iteracji zawiera zadania jakie mają zostać wykonane w ramach jednej iteracji. 
 
-\item[Iteracja (iteration)] Jest to proces 1-3 tygodniowy złożony z rozmytych, wszystkich faz wytwarzania oprogramowania. Poszczególne zadania z tablicy iteracji są analizowane, dalej projektowane rozwiązania, testowane i implementowane. Na koniec iteracji oczekiwany jest gotowy produkt zawierający funkcjonalność przewidzianą na daną iteracja, udokumentowaną i przetestowaną.
+\item[Iteracja (iteration)]\hfill
+Jest to proces 1-3 tygodniowy złożony z rozmytych, wszystkich faz wytwarzania oprogramowania. Poszczególne zadania z tablicy iteracji są analizowane, dalej projektowane rozwiązania, testowane i implementowane. Na koniec iteracji oczekiwany jest gotowy produkt zawierający funkcjonalność przewidzianą na daną iteracja, udokumentowaną i przetestowaną.
 
 \end{description}
 
 \subsection{Narzędzia}
 
-Przy pracy kierownika zespołu jak i kierownika projektu ważne są narzędzia ułatwiające pracę. Domyślnymi narzędziami w metodzie scrum są fizyczne tablice i karteczki. Niestety z powodów praktycznych o pracy zdalnej zespołu takie rozwiązanie należy odrzucić. W sieci dostępne są liczne komercyjne narzędzia. Większość z nich udostępnia darmowe wersje swojego oprogramowania z licznymi ograniczeniami, ale w praktyce wystarczające dla początkujących małych zespołów.  
+Do efektywnego zarządzania zespołem należy wykorzystać narzędzia wspierające zwinne wytwarzanie oprogramowania. Podstawowym narzędziami w metodzie scrum (jak i w innych zwinnych metodykach) są fizyczne tablice i karteczki. Niestety z powodów zdalnej pracy członków zespołu pracującym nad tym projektem, fizyczne tablice są praktycznie nie do wykorzystania. W sieci dostępne są liczne komercyjne narzędzia. Większość z nich udostępnia darmowe wersje swojego oprogramowania z licznymi ograniczeniami, ale w praktyce wystarczające dla początkujących małych zespołów.  
 
 Wybór narzędzia dla zespołu ponad 5 osobowego jest bardzo ograniczony ze względu na licencje darmowych wersji dostępnych narzędzi. Jednym z nielicznych i najbogatszym w tej grupie jest narzędzie VersionOne \cite{versionone}.
  
@@ -61,15 +64,15 @@ Kolejne punkty kontrolne (mile stone's) wymagają ukończenie kolejnych etapów 
 
 Podstawowym problemem metodyki zwinnej jest ocena przez prowadzących przedmiot postępu w pracy. Większość metod oceniania zakłada model kaskadowy. 
 
-Metodyki zwinne są nastawione na badanie postępu pracy poprzez śledzenie ilości wykonanych zadań (z uwzględnieniem ich wyceny) na przestrzeni czasu. Inną cechą zwinnego programowania jest równomierna praca zespołu. Takie cechy tej metody stanowią bardzo dobrą podstawę do oceny pracy zespołu. Propozycje oceniania przez prowadzących zwinnych zespołów zostały przedstawione dalej w tekście.
+Metodyki zwinne są nastawione na badanie postępu pracy poprzez śledzenie ilości wykonanych zadań (z uwzględnieniem ich wyceny) na przestrzeni czasu. Inną cechą zwinnego programowania jest równomierna praca zespołu. Takie cechy tej metody stanowią bardzo dobrą podstawę do oceny pracy zespołu. 
 
 \subsubsection{Prowadzący == Klient}
 
-Popularnym modelem rozliczania zespołów zwinnych jest rozliczanie za iteracje. W raz z klientem wypełniania jest tablica zadań do wykonania (backlog). Następnie zespół wycenia (określa poziom trudności) poszczególne zadania. Następnie wraz z klientem zadania są sortowane od najważniejszy do najmniej istotnych. Kierownik zespołu znając wydajność zespołu przydziela zadania do wykonania w najbliższej iteracji. Taki plan jest przedstawiany klientowi i który po zaakceptowaniu kolejnych iteracji. Zgłasza błędy i zmiany które trafiają na tablice. Modyfikacje na tablicy uwzględniane są w kolejnych iteracjach.
+Popularnym modelem rozliczania zespołów zwinnych jest rozliczanie za iteracje. W raz z klientem wypełniania jest tablica zadań do wykonania (backlog). Następnie zespół wycenia (określa poziom trudności) poszczególne zadania. Wraz z klientem zadania są sortowane od najważniejszy do najmniej istotnych. Kierownik zespołu znając wydajność zespołu przydziela zadania do wykonania w najbliższej iteracji. Klient po otrzymaniu gotowej paczki (produkt końca iteracji), zgłasza błędy i zmiany które trafiają na tablice. Modyfikacje na tablicy uwzględniane są w kolejnych iteracjach.
 
-Na potrzeby projektu osoba prowadząca przedmiot może zastąpić klienta i akceptować kolejne iteracje, zgłaszając swoje uwagi i zastrzeżenia. Następnie faktyczne wycenianie może polegać na ocenie względnej wykonanej pracy w kolejnych iteracjach i ocenę będzie stanowić sumę zebranych punktów z iteracji. 
+Na potrzeby projektu osoba prowadząca przedmiot może zastąpić klienta i akceptować kolejne iteracje, zgłaszając swoje uwagi i zastrzeżenia. Następnie faktyczne wycenianie może polegać na ocenie względnej wykonanej pracy w kolejnych iteracjach a ocenę będzie stanowić sumę zebranych punktów z iteracji. 
 
-Innym podejściem może być ocenienie dopiero finalnego produktu lub iteracji którą prowadzący uzna za wystarczającą. Iteracje pośrednie same w sobie nie były by ocenianie. Takie podejście może być bardziej adekwatne w kontekście porównania z innymi metodami wytwarzania oprogramowania. Spowodowane jest to właściwościami metod zwinnych gdzie projekt oraz dokumentacja ulega permanentnym zmianą z iteracji na iterację. Istotny jest również fakt, że funkcjonalności dodawane są stopniowo. W myśl zasady, by nie pisać poszczególne elementy dopiero gdy są potrzebne a nie na zapas. Z wymienionych powodów porównanie, ocenienie zespołów zwinnych na tle zespołów kaskadowych może być możliwe dopiero przez ocenę końcowego produktu. 
+Innym podejściem może być ocenienie dopiero finalnego produktu lub iteracji którą prowadzący uzna za wystarczającą. Iteracje pośrednie same w sobie nie były by ocenianie. Takie podejście może być bardziej adekwatne w kontekście porównania z innymi metodami wytwarzania oprogramowania. Spowodowane jest to właściwościami metod zwinnych gdzie projekt oraz dokumentacja ulega permanentnym zmianą z iteracji na iterację. Istotny jest również fakt, że funkcjonalności dodawane są stopniowo. W myśl zasady, by nie pisać na zapas funkcjonalności czy rozbudowanych struktur danych, do momentu gdy są one naprawdę potrzebne. Z wymienionych powodów porównanie, ocenienie zespołów zwinnych na tle zespołów kaskadowych może być możliwe dopiero przez ocenę końcowego produktu. 
 
 \bibliographystyle{../plplainurl}
 \bibliography{../bibliografia}
