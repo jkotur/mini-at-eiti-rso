@@ -108,17 +108,17 @@ Dodatkową korzyścią płynącą z segmentacji jest współbieżne wysyłanie p
 
 Swift używa do konfiguracji zewnętrznej biblioteki pythona Paste Deploy~\cite{paste_deploy}, który implementuje standard WSGI odnośnie konfiguracji serwerów. Dokładny opis składni plików konfiguracyjnych znajduje się w dokumentacji tejże biblioteki pod adresem \url{http://pythonpaste.org/deploy/#the-config-file}. 
 
-Konfiguracja każdego serwera znajduje się w pliku \texttt{/etc/swift/<server-name>-server.conf}, gdzie nazwą serwera może być object, container bądź account, w zależności który serwer chcemy skonfigurować. W tych plikach znajdują się wszystkie opcje konfiguracyjne serwerów w formacie wspomnianym powyżej. Dokładny spis wszystkich opcji znajduje się pod adresem \url{http://swift.openstack.org/deployment_guide.html#general-server-configuration}.
+Konfiguracja każdego serwera znajduje się w pliku \texttt{/etc/swift/<server>-server.conf}, gdzie \texttt{server}em może być proxy, object, container bądź account, w zależności który serwer chcemy skonfigurować. Na jednej maszynie mogą się znajdować pliki konfiguracyjne dla wszystkich rodzajów serwerów. Jeżeli chcemy skonfigurować więcej niż jeden serwer danego rodzaju na tej samej maszynie, należy utworzyć katalog \texttt{/etc/swift/<server>-server/}, a następnie konfiguracje umieścić w nim w plikach o nazwach \texttt{<n>.conf} gdzie \texttt{n} to kolejne liczby naturalne. W tych plikach znajdują się wszystkie opcje konfiguracyjne serwerów w formacie wspomnianym powyżej. Dokładny spis wszystkich opcji znajduje się pod adresem \url{http://swift.openstack.org/deployment_guide.html#general-server-configuration}.
 
 Dodatkowo jeśli chcemy skonfigurować serwer obiektów, musimy w nim zdefiniować które dyski będą używane do przechowywania danych. W parametrze \texttt{devices} ustawiamy katalog w którym chcemy przechowywać dane. W tym katalogu tworzymy foldery i w każdym folderze montujemy jedną partycje. Dobrą praktyką jest nadawanie katalogom nazw urządzeń systemowych.
 
 \section{Instalacja}\label{sec:instalacja}
 
-Dokładny opis instalacji Swifta, dedykowany dla programistów, dobrze opisany jest w dokumentacji~\cite{swift_doc}. Po wykonaniu instrukcji zawartych w tym opisie otrzymujemy działające środowisko programistyczne na jednej maszynie, symulującej chmurę złożoną z czterech serwerów.
-
-Jeśli chcemy skonfigurować kilka maszyn, na każdej z nich trzeba zainstalować Swifta, a pliki konfiguracyjne odpowiednio rozproszyć. 
+Dokładny opis instalacji Swifta, dedykowany dla programistów, dobrze opisany jest w dokumentacji~\cite{swift_doc}. Po wykonaniu instrukcji zawartych w tym opisie otrzymujemy działające środowisko programistyczne na jednej maszynie, symulującej chmurę. W jej skład wchodzi serwer proxy, serwer autoryzacji oparty o Swauth, oraz po cztery serwery danych z każdego rodzaju.
 
 Opis ten jest dostępny pod adresem: \url{http://swift.openstack.org/development_saio.html}
+
+Jeśli chcemy otrzymać kilka maszyn, należy odpowiednio rozproszyć pliki konfiguracyjne. Aby komunikacja mogła przebiegać w pełni, należy przebudować pierścień w oparciu o adresy ip serwerów.
 
 \bibliographystyle{../plplainurl}
 \bibliography{../bibliografia}
