@@ -1,0 +1,45 @@
+\input{../header.tex}
+
+\hypersetup{
+        unicode = true,
+        pdfauthor = {Szymon Piątek},
+}
+
+\title{Instalacja oprogramowania}
+\author{Szymon Piątek}
+
+\hyphenation{IaaS Rack-Space}
+
+\begin{document}
+\maketitle
+
+\section{Aktualizacja systemu w~laboratorium}
+\subsection{Praca na maszynie wirtualnej}
+Praca wspólna: Jacek Kołodziejski, Szymon Piątek, Piotr Wasilewski
+
+\begin{enumerate}
+        
+        \item Ustawiono MAC na VM~ oraz opcję bridge
+        \item Wyłączono komputer o~danym MACu
+        \item Ustawiono Virtualizację i~VT--intel w~BIOSie komputera z~VM
+        \item Ustawiono rozmiar dysku VM~na większy niż 16GB
+        \item Po pojawieniu się ikonki Ubuntu:~uruchomiono instalator bez modułów związanych z~zaawansowanymi przerwaniami
+        \footnote{Pod maszyną wirtualną moduły te powodują kernel panic}
+        \begin{verbatim}ux noapic nolapic\end{verbatim}
+        \item Gdy nie uda się ściąganie: przejść do następnego kroku
+        \item Usunięto instalację i konfigurację Virtualbox - problemy z instalatorem
+        \item Przygotowanie instalacji Ubuntu 10.10: Stworzono katalogi preseed2 i~tftp/rso
+        \item Dodano linijki z nową instalacją (rso) w~tftp
+        \item Uruchamianie instalacji Ubuntu 10.10
+        \begin{verbatim} rso noapic nolapic \end{verbatim}
+        \item W~post-install dodano instalację ethtool przy okazji wakeonlane, zamienieno librrd2 na librrd4
+        \item Dodano plik nsswitch.conf do tftp, jest on ściągany w~post\-install po zainstalowaniu systemu. Umożliwia on dostęp do ldap
+        \item Do pliku preseed.conf dodano potwierdzenie partycjonowania (usunięcie pytania z~instalatora)
+
+\end{enumerate}
+
+\bibliography{../bibliografia}
+\bibliographystyle{../plplainurl}
+
+\end{document}
+                       
