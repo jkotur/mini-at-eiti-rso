@@ -93,8 +93,6 @@ jądra systemu -- inaczej niż w~tradycyjnych systemach plików.
 Kolejną zaletą tej biblioteki jest obecność bindingów do różnych języków
 programowania, w~tym do Pythona, na którego użycie się zdecydowaliśmy.
 
-<<<<<<< HEAD
-=======
 \section{Implementacja systemu plików}
 
 \begin{figure}
@@ -129,7 +127,21 @@ Przykładową reprezentację minimalnego systemu plików przedstawiono na rysunk
 nr~\ref{fig:drzewo}. Z~lewej strony widoczne jest drzewo katalogów, z~prawej
 natomiast trzy kontenery Swift przechowujące reprezentację drzewa.
 
->>>>>>> jano
+Opisany sposób implementacji posiada niestety pewne wady. Wynikają one z
+przyjętej przez nas architektury oraz założeń Swifta. Przede wszystkim \cb{}
+kiepsko radzi sobie z~dużymi plikami -- API Swifta nie pozwala na podmienianie
+części pliku, więc każda zmiana w~pliku niesie ze sobą konieczność przesłania
+całej jego zawartości.
+
+Nie ma także możliwości zmiany nazwy obiektu w~kontenerze, przez co każda zmiana
+nazwy pliku sprowadza się do pobrania go w~całości na lokalny komputer, po czym
+wysłania z~powrotem z~inną nazwą. To samo dotyczy katalogów.
+
+Ostatni problem, którego nie rozwiązaliśmy ze względu na założenie minimalności
+implementacji, to synchronizacja podczas jednoczesnej pracy kilku użytkowników.
+W~obecnej postaci \cb{} nadaje się tylko do jednoczesnego korzystania przez
+jednego użytkownika.
+
 \section{Instrukcja obsługi}
 Użycie naszego projektu różni się od standardowego użycia systemu plików
 jedynie sposobem montowania i~demontowania. Cała reszta poleceń powłoki
