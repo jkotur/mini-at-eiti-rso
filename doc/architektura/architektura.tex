@@ -224,6 +224,31 @@ fusermount -u <mountpoint>
 
 \section{Możliwości rozwoju}
 
+Komfort używania opracowanego systemu plików wzrósłby gdyby tryb jego działania
+zamieniono na asynchroniczny. Obecnie sterowanie jest zwracane do procesu
+wykonującego operację I/O dopiero po zakończeniu wykonywania zapytania HTTP do
+Swift. Udoskonalenie polegałoby na realizacji żądań zapisu w~tle
+i~natychmiastowym zwracaniu sterowania. Podobnie zrealizowane są operacje na
+wolnych urządzeniach blokowych, np. pendrive'ach, w~systemie Linux. Poprawne
+wykonanie operacji zapisu jest zagwarantowane dopiero po poprawnym odmontowaniu
+urządzenia.
+
+Realizacja tego pomysłu wiązała by się jednak z~wprowadzeniem w~projekcie
+wielowątkowości lub wieloprocesowości, co istotnie skomplikowałoby jego
+architekturę. Niezbędne byłyby mechanizmy synchronizacji weryfikujące przed
+odmontowaniem czy wszystkie zlecenia zapisu zakończyły się.
+
+\paragraph{}
+
+Kolejna możliwość rozwoju projektu mogłaby polegać na uniezależnieniu go od
+Swift i~umożliwieniu rozszerzania go o~wtyczki pozwalające na współpracę
+z~innymi usługami przechowywania danych w~chmurze. Przykładowymi backendami
+wspieranymi poprzez tego typu wtyczki byłyby stanowiąca inspirację dla Swift
+usługa Amazon Simple Storage Service lub popularny serwis Dropbox.
+Funkcjonalność tego typu uczyniłaby projekt odpornym na ewentualne zmiany na
+rynku usług przechowywania danych w~chmurze, jak choćby pojawienie się nowych,
+lepszych rozwiązań lub zawieszenie prac nad projektem Swift.
+
 \bibliographystyle{../plplainurl}
 \bibliography{../bibliografia}
 
