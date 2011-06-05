@@ -1,0 +1,49 @@
+\input{../header.tex}
+
+\hypersetup{
+	unicode = true,
+	pdfauthor = {Jan Stępień},
+}
+
+\title{Cumulonimbus -- Architektura Systemu}
+\author{Jan Stępień}
+
+\def\cb{Cumulonimbus}
+\def\todo{\textbf{TODO}: }
+
+\begin{document}
+
+\maketitle
+
+\section{Swift}
+
+Do realizacji projektu \cb{} wykorzystany został projekt OpenStack Storage, znany
+również jako Swift. Wyczerpujący opis tego narzędzia znajduje się w~jednym
+z~dokumentów dostarczonych na początku semestru \cite{qba-swift}, stąd
+w~niniejszym dokumencie nie będziemy zajmować się szczegółami jego działania.
+Ograniczamy się jedynie do przypomnienia, że Swift to rozproszony system
+bazodanowy pozwalający na redundancyjne przechowywanie plików w~kontenerach
+o~płaskiej strukturze.
+
+\subsection{Konfiguracja}
+
+Projekt \cb{} wymaga do swojego działania dostępu do działającego klastra Swift
+o~dowolnej architekturze. Prace deweloperskie były prowadzone na minimalnej
+instancji uruchomionej na pojedynczej maszynie wirtualnej. Testy w~laboratorium
+wykonywano na bardziej rozbudowanej instalacji z~serwerami danych rozproszonymi
+na kilku maszynach fizycznych. \todo oby to była prawda.
+
+\subsection{Zalety}
+
+Nie ma on żadnych wymagań wobec sposobu konfiguracji klastra. Może być to
+zarówno minimalna instancja uruchomiona na pojedynczej maszynie fizycznej, jak
+i~rozproszony system wielu instancji. Dzięki poziomowi przezroczystości
+zapewnianej przez Swift sposób jego konfiguracji nie ma znaczenia dla projektu
+\cb{}.
+
+\subsection{Ograniczenia}
+
+\bibliographystyle{../plplainurl}
+\bibliography{../bibliografia}
+
+\end{document}
