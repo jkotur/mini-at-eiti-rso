@@ -389,7 +389,7 @@ FUNCTION {format.title}
 { title empty$
     { "" }
 
-    { title "t" change.case$ }
+    { title }
 
   if$
 }
