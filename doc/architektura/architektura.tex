@@ -114,18 +114,23 @@ Wewnątrz kontenera przechowywane są znajdujące się w~odpowiadającym mu kata
 pliki i~dowiązania symboliczne. Każdy plik i~dowiązanie przechowywany jest jako
 obiekt w~rozumieniu pakietu Swift. Nazwy obiektów to ostatnia część nazwy
 odpowiedniego pliku lub dowiązania, również zakodowana przy pomocy
-\textit{URL-encoding}.
+\textit{URL-encoding}. Do realizacji kodowania i~dekodowania
+\textit{URL-encoding} wykorzystany został moduł \texttt{urlib} wchodzący w skład
+standardowej biblioteki Pythona 2.6 i~nowszych.
 
 Zawartość plików przechowywana jest jako zawartość reprezentujących je obiektów.
 Dowiązania symboliczne są wyróżnione wartością przypisanego każdemu Swiftowemu
 obiektowi pola \texttt{content-type} -- w~ich wypadku ma ono wartość
-\texttt{symlink}. Zwykłe pliki mają w~tym miejscu pusty łańcuch znaków. Ponadto
-treść obiektu reprezentującego dowiązanie symboliczne to ścieżka do wskazywanego
-przezeń pliku.
+\texttt{symlink}. Zwykłe pliki mają w~tym miejscu standardowy typ zawartości,
+\texttt{application/octet-stream}. Ponadto treść obiektu reprezentującego
+dowiązanie symboliczne to ścieżka do wskazywanego przezeń pliku. Informacje
+o~czasie ostatniej modyfikacji obiektów przechowywane są w~analogicznym do
+\texttt{content-type} polu z~metadanymi \texttt{last-modified}.
 
 Przykładową reprezentację minimalnego systemu plików przedstawiono na rysunku
 nr~\ref{fig:drzewo}. Z~lewej strony widoczne jest drzewo katalogów, z~prawej
-natomiast trzy kontenery Swift przechowujące reprezentację drzewa.
+natomiast trzy kontenery Swift przechowujące reprezentację drzewa. Na diagramie
+pominięto pole \texttt{content-type} zwykłych plików.
 
 \section{Instrukcja obsługi}
 Użycie naszego projektu różni się jedynie sposobem montowania i~demontowania
