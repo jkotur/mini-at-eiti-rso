@@ -224,6 +224,13 @@ fusermount -u <mountpoint>
 
 \section{Możliwości rozwoju}
 
+\subsection{Synchronizacja użytkowników}
+Aby \cb{} mógł stać się rozwiązaniem, które sprawdzi się w~praktyce, konieczna
+byłaby implementacja mechanizmu synchronizacji, który zapobiegłby uszkodzeniu
+plików, na przykład poprzez uniemożliwienie jednoczesnej edycji przez różnych
+użytkowników. Mechanizm taki musiałby radzić sobie z~sytuacjami, w~których
+zerwaniu ulega połączenie z~użytkownikiem.
+
 \bibliographystyle{../plplainurl}
 \bibliography{../bibliografia}
 
