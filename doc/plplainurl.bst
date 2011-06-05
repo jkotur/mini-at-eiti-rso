@@ -1210,13 +1210,13 @@ FUNCTION {default.type} { misc }
 
 
 
-MACRO {jan} {"Stycze/n"}
+MACRO {jan} {"Styczen"}
 
 MACRO {feb} {"Luty"}
 
 MACRO {mar} {"Marzec"}
 
-MACRO {apr} {"Kwiecie/n"}
+MACRO {apr} {"Kwiecień"}
 
 MACRO {may} {"Maj"}
 
@@ -1224,22 +1224,22 @@ MACRO {jun} {"Czerwiec"}
 
 MACRO {jul} {"Lipiec"}
 
-MACRO {aug} {"Sierpie/n"}
+MACRO {aug} {"Sierpień"}
 
-MACRO {sep} {"Wrzesie/n"}
+MACRO {sep} {"Wrzesień"}
 
-MACRO {oct} {"Pa/xdziernik"}
+MACRO {oct} {"Październik"}
 
 MACRO {nov} {"Listopad"}
 
-MACRO {dec} {"Grudzie/n"}
+MACRO {dec} {"Grudzień"}
 
 MACRO {sty} {"Stycze/n"}
 
 MACRO {lut} {"Luty"}
 
 
-MACRO {kwi} {"Kwiecie/n"}
+MACRO {kwi} {"Kwiecień"}
 
 MACRO {maj} {"Maj"}
 
@@ -1247,15 +1247,15 @@ MACRO {cze} {"Czerwiec"}
 
 MACRO {lip} {"Lipiec"}
 
-MACRO {sie} {"Sierpie/n"}
+MACRO {sie} {"Sierpień"}
 
-MACRO {wrz} {"Wrzesie/n"}
+MACRO {wrz} {"Wrzesień"}
 
-MACRO {paz} {"Pa/xdziernik"}
+MACRO {paz} {"Październik"}
 
 MACRO {lis} {"Listopad"}
 
-MACRO {gru} {"Grudzie/n"}
+MACRO {gru} {"Grudzień"}
 
 
 
