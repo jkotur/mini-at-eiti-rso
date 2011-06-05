@@ -133,7 +133,7 @@ przy pomocy opcji \texttt{--help}.
 Aby zamontować system plików używamy polecenia:
 
 \begin{verbatim}
-./cfuse.py <mountpoint> <opcje>
+cumulonimbus <mountpoint> <opcje>
 \end{verbatim}
 
 Opcje wbrew nazwie nie są opcjonalne. Pierwsza z~nich to authurl -- adres URL
@@ -143,7 +143,7 @@ jego hasło na tym serwerze.
 Opcje podajemy po fladze -o:
 
 \begin{verbatim}
-./cfuse.py dir -o~authurl=http://127.0.0.1:8080/auth/v1.0 \
+cumulonimbus dir -o~authurl=http://127.0.0.1:8080/auth/v1.0 \
     -o~user=test:tester -o~key=testing
 \end{verbatim}
 
