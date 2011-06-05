@@ -6,7 +6,7 @@
 }
 
 \title{Cumulonimbus -- Architektura Systemu}
-\author{Daniel Kłobuszewski, Jan Stępień}
+\author{Daniel Kłobuszewski \and Jan Stępień}
 
 \def\cb{Cumulonimbus}
 \def\todo{\textbf{TODO}: }
@@ -98,12 +98,49 @@ Użycie naszego projektu różni się od standardowego użycia systemu plików
 jedynie sposobem montowania i~demontowania. Cała reszta poleceń powłoki
 i~wywołań I/O~jest identyczna.
 
+\subsection{Zależności}
+
+Do instalacji i~poprawnego działania projektu \cb{} niezbędna jest instalacja
+następujących aplikacji i~biblioteki, wraz z~ich zależnościami.
+
+\begin{itemize}
+	\item{Python 2.6}
+	\item{python-fuse 0.2.1}
+	\item{swift, wersja z~systemu kontroli wersji, rewizja 257 \todo dlaczego
+		ta konkretna}
+\end{itemize}
+
+\subsection{Instalacja}
+
+Dalsze sekcje będą zakładały, że została wykonana poprawna instalacja a~główny
+skrypt programu znajduje się w~jednym z~katalogów ze~zmiennej środowiskowej
+\texttt{PATH}. Poniższe polecenie wykonane w~głównym katalogu ze źródłami
+zainstaluje \cb{} w~katalogu \texttt{/usr/local}.
+
+\begin{verbatim}
+./setup.py install
+\end{verbatim}
+
+Jeżeli \cb{} ma być zainstalowany w~innym miejscu należy wykorzystać opcję
+\texttt{--prefix}:
+
+\begin{verbatim}
+./setup.py install --prefix /absolute/destination/path
+\end{verbatim}
+
+Więcej informacji na temat procedury instalacji i~możliwych opcji można uzyskać
+przy pomocy opcji \texttt{--help}.
+
+\begin{verbatim}
+./setup.py --help
+\end{verbatim}
+
 \subsection{Montowanie}
 
 Aby zamontować system plików używamy polecenia:
 
 \begin{verbatim}
-./cfuse.py <mountpoint> <opcje>
+cumulonimbus <mountpoint> <opcje>
 \end{verbatim}
 
 Opcje wbrew nazwie nie są opcjonalne. Pierwsza z~nich to authurl -- adres URL
@@ -113,7 +150,7 @@ jego hasło na tym serwerze.
 Opcje podajemy po fladze -o:
 
 \begin{verbatim}
-./cfuse.py dir -o authurl=http://127.0.0.1:8080/auth/v1.0 \
+cumulonimbus dir -o authurl=http://127.0.0.1:8080/auth/v1.0 \
     -o user=test:tester -o key=testing
 \end{verbatim}
 
