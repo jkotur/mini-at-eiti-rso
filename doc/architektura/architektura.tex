@@ -132,9 +132,26 @@ nr~\ref{fig:drzewo}. Z~lewej strony widoczne jest drzewo katalogów, z~prawej
 natomiast trzy kontenery Swift przechowujące reprezentację drzewa. Na diagramie
 pominięto pole \texttt{content-type} zwykłych plików.
 
+\paragraph{}
+Opisany sposób implementacji posiada niestety pewne wady. Wynikają one z
+przyjętej przez nas architektury oraz założeń Swifta. Przede wszystkim \cb{}
+kiepsko radzi sobie z~dużymi plikami -- API Swifta nie pozwala na podmienianie
+części pliku, więc każda zmiana w~pliku niesie ze sobą konieczność przesłania
+całej jego zawartości.
+
+Nie ma także możliwości zmiany nazwy obiektu w~kontenerze, przez co każda zmiana
+nazwy pliku sprowadza się do pobrania go w~całości na lokalny komputer, po czym
+wysłania z~powrotem z~inną nazwą. To samo dotyczy katalogów.
+
+Ostatni problem, którego nie rozwiązaliśmy ze względu na założenie minimalności
+implementacji, to synchronizacja podczas jednoczesnej pracy kilku użytkowników.
+W~obecnej postaci \cb{} nadaje się tylko do jednoczesnego korzystania przez
+jednego użytkownika.
+
 \section{Instrukcja obsługi}
-Użycie naszego projektu różni się jedynie sposobem montowania i~demontowania
-systemu plików. Cała reszta poleceń powłoki i~wywołań I/O~jest identyczna.
+Użycie naszego projektu różni się od standardowego użycia systemu plików
+jedynie sposobem montowania i~demontowania. Cała reszta poleceń powłoki
+i~wywołań I/O~jest identyczna.
 
 \subsection{Zależności}
 
@@ -188,8 +205,8 @@ jego hasło na tym serwerze.
 Opcje podajemy po fladze -o:
 
 \begin{verbatim}
-cumulonimbus dir -o~authurl=http://127.0.0.1:8080/auth/v1.0 \
-    -o~user=test:tester -o~key=testing
+cumulonimbus dir -o authurl=http://127.0.0.1:8080/auth/v1.0 \
+    -o user=test:tester -o key=testing
 \end{verbatim}
 
 Warto zwrócić uwagę na charakterystyczny dwukropek w~nazwie użytkownika.
@@ -202,7 +219,7 @@ uprawnieniami.
 Demontowanie jest na szczęście znacznie prostsze:
 
 \begin{verbatim}
-fusermount -u~<mountpoint>
+fusermount -u <mountpoint>
 \end{verbatim}
 
 \bibliographystyle{../plplainurl}
