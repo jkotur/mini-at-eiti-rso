@@ -88,9 +88,45 @@ programowania, w~tym do Pythona, na którego użycie się zdecydowaliśmy.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.75\textwidth]{img/fuse_structure.png}
+    \includegraphics[width=0.7\textwidth]{img/fuse_structure.png}
     \caption{Zasada działania FUSE}
 \end{figure}
+
+\section{Instrukcja obsługi}
+Użycie naszego projektu różni się jedynie sposobem montowania i~demontowania
+systemu plików. Cała reszta poleceń powłoki i~wywołań I/O~jest identyczna.
+
+\subsection{Montowanie}
+
+Aby zamontować system plików używamy polecenia:
+
+\begin{verbatim}
+./cfuse.py <mountpoint> <opcje>
+\end{verbatim}
+
+Opcje wbrew nazwie nie są opcjonalne. Pierwsza z~nich to authurl -- adres URL
+serwera autoryzacji. Kolejne dwie to user oraz key -- czyli użytkownik oraz
+jego hasło na tym serwerze.
+
+Opcje podajemy po fladze -o:
+
+\begin{verbatim}
+./cfuse.py dir -o~authurl=http://127.0.0.1:8080/auth/v1.0 \
+    -o~user=test:tester -o~key=testing
+\end{verbatim}
+
+Warto zwrócić uwagę na charakterystyczny dwukropek w~nazwie użytkownika.
+Oddziela on pierwszy człon nazwy -- konto -- od drugiego -- faktycznej nazwy.
+Na jednym koncie może znajdować się wielu użytkowników, każdy z~innymi
+uprawnieniami.
+
+\subsection{Demontowanie}
+
+Demontowanie jest na szczęście znacznie prostsze:
+
+\begin{verbatim}
+fusermount -u~<mountpoint>
+\end{verbatim}
 
 \bibliographystyle{../plplainurl}
 \bibliography{../bibliografia}
