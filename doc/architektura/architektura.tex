@@ -103,6 +103,31 @@ programowania, w~tym do Pythona, na którego użycie się zdecydowaliśmy.
 Użycie naszego projektu różni się jedynie sposobem montowania i~demontowania
 systemu plików. Cała reszta poleceń powłoki i~wywołań I/O~jest identyczna.
 
+\subsection{Instalacja}
+
+Dalsze sekcje będą zakładały, że została wykonana poprawna instalacja a~główny
+skrypt programu znajduje się w~jednym z~katalogów ze~zmiennej środowiskowej
+\texttt{PATH}. Poniższe polecenie wykonane w~głównym katalogu ze źródłami
+zainstaluje \cb{} w~katalogu \texttt{/usr/local}.
+
+\begin{verbatim}
+./setup.py install
+\end{verbatim}
+
+Jeżeli \cb{} ma być zainstalowany w~innym miejscu należy wykorzystać opcję
+\texttt{--prefix}:
+
+\begin{verbatim}
+./setup.py install --prefix /absolute/destination/path
+\end{verbatim}
+
+Więcej informacji na temat procedury instalacji i~możliwych opcji można uzyskać
+przy pomocy opcji \texttt{--help}.
+
+\begin{verbatim}
+./setup.py --help
+\end{verbatim}
+
 \subsection{Montowanie}
 
 Aby zamontować system plików używamy polecenia:
