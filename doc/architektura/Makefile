@@ -1,6 +1,6 @@
 .SUFFIXES: .svg .pdf
 .PHONY: all clean
-IMG_DEPS=fuse.pdf
+IMG_DEPS=fuse.pdf drzewo.pdf
 
 all: architektura.pdf
 
