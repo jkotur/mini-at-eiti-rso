@@ -93,11 +93,39 @@ jądra systemu -- inaczej niż w~tradycyjnych systemach plików.
 Kolejną zaletą tej biblioteki jest obecność bindingów do różnych języków
 programowania, w~tym do Pythona, na którego użycie się zdecydowaliśmy.
 
+\section{Implementacja systemu plików}
+
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\textwidth]{img/fuse_structure.png}
-    \caption{Zasada działania FUSE}
+    \includegraphics[width=0.7\textwidth]{drzewo.pdf}
+    \caption{Przykładowe drzewo katalogów}
+	\label{fig:drzewo}
 \end{figure}
+
+Projekt \cb{} implementuje prosty system plików. Wspiera kluczowe dla normalnej
+pracy operacje, takie jak tworzenie, odczyt, modyfikacja i~usuwanie katalogów
+i~plików. Wspierane są również dowiązania symboliczne. Poza zakresem prac
+znalazły się wielokrotne dowiązania twarde -- każdy plik ma tylko jeden hard
+link.
+
+Każdy katalog jest reprezentowany jako osobny kontener o~unikalnej nazwie będącą
+ścieżką danego katalogu zakodowaną przy pomocy kodowania \textit{URL-encoding}.
+Wewnątrz kontenera przechowywane są znajdujące się w~odpowiadającym mu katalogu
+pliki i~dowiązania symboliczne. Każdy plik i~dowiązanie przechowywany jest jako
+obiekt w~rozumieniu pakietu Swift. Nazwy obiektów to ostatnia część nazwy
+odpowiedniego pliku lub dowiązania, również zakodowana przy pomocy
+\textit{URL-encoding}.
+
+Zawartość plików przechowywana jest jako zawartość reprezentujących je obiektów.
+Dowiązania symboliczne są wyróżnione wartością przypisanego każdemu Swiftowemu
+obiektowi pola \texttt{content-type} -- w~ich wypadku ma ono wartość
+\texttt{symlink}. Zwykłe pliki mają w~tym miejscu pusty łańcuch znaków. Ponadto
+treść obiektu reprezentującego dowiązanie symboliczne to ścieżka do wskazywanego
+przezeń pliku.
+
+Przykładową reprezentację minimalnego systemu plików przedstawiono na rysunku
+nr~\ref{fig:drzewo}. Z~lewej strony widoczne jest drzewo katalogów, z~prawej
+natomiast trzy kontenery Swift przechowujące reprezentację drzewa.
 
 \section{Instrukcja obsługi}
 Użycie naszego projektu różni się jedynie sposobem montowania i~demontowania
