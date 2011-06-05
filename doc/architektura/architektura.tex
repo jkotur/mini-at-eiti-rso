@@ -54,7 +54,7 @@ Po pierwsze, Swift gwarantuje redundancyjne mechanizmy przechowywania danych
 oraz \textit{fault-tolerance}. W~wypadku uszkodzenia pewnej części węzłów
 klastra przechowujących dane system plików \cb{} może nadal działać poprawnie,
 pod warunkiem, że awaria nie zaburzy działania samego systemu Swift. Jeżeli
-zapewnieni autorów Swift są poprawne, użytkownik nie powinien odczuć żadnych
+zapewnienia autorów Swift są poprawne, użytkownik nie powinien odczuć żadnych
 konsekwencji tego typu zdarzeń.
 
 Drugą zaletą jest możliwość złączenia w~ramach klastra Swift dowolnie dużej
@@ -91,7 +91,9 @@ jest fakt, że żaden błąd w~takiej implementacji nie może zakłócić dział
 jądra systemu -- inaczej niż w~tradycyjnych systemach plików.
 
 Kolejną zaletą tej biblioteki jest obecność bindingów do różnych języków
-programowania, w~tym do Pythona, na którego użycie się zdecydowaliśmy.
+programowania, w~tym do Pythona, na którego użycie się zdecydowaliśmy. Diagram
+prezentujący przepływ żądania operacji na zamontowanej partycji znajduje się na
+rysunku \ref{fig:fuse}.
 
 \section{Implementacja systemu plików}
 
@@ -120,17 +122,17 @@ standardowej biblioteki Pythona 2.6 i~nowszych.
 
 Zawartość plików przechowywana jest jako zawartość reprezentujących je obiektów.
 Dowiązania symboliczne są wyróżnione wartością przypisanego każdemu Swiftowemu
-obiektowi pola \texttt{content-type} -- w~ich wypadku ma ono wartość
+obiektowi nagłówka \texttt{content-type} -- w~ich wypadku ma ono wartość
 \texttt{symlink}. Zwykłe pliki mają w~tym miejscu standardowy typ zawartości,
 \texttt{application/octet-stream}. Ponadto treść obiektu reprezentującego
 dowiązanie symboliczne to ścieżka do wskazywanego przezeń pliku. Informacje
 o~czasie ostatniej modyfikacji obiektów przechowywane są w~analogicznym do
-\texttt{content-type} polu z~metadanymi \texttt{last-modified}.
+\texttt{content-type} nagłówku \texttt{last-modified}.
 
 Przykładową reprezentację minimalnego systemu plików przedstawiono na rysunku
 nr~\ref{fig:drzewo}. Z~lewej strony widoczne jest drzewo katalogów, z~prawej
 natomiast trzy kontenery Swift przechowujące reprezentację drzewa. Na diagramie
-pominięto pole \texttt{content-type} zwykłych plików.
+pominięto nagłówek \texttt{content-type} zwykłych plików.
 
 \paragraph{}
 Opisany sposób implementacji posiada niestety pewne wady. Wynikają one z
