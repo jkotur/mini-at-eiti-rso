@@ -33,15 +33,42 @@ instancji uruchomionej na pojedynczej maszynie wirtualnej. Testy w~laboratorium
 wykonywano na bardziej rozbudowanej instalacji z~serwerami danych rozproszonymi
 na kilku maszynach fizycznych. \todo oby to była prawda.
 
+Sposób konfiguracji minimalnej instancji Swift potrzebnej do działania projektu
+\cb{} -- Swift All In One -- został przedstawiony w~dokumentacji Swift
+\cite{swift_doc}. Rozwiązanie to powoduje uruchomienie serwera autoryzującego,
+serwera pośredniczącego oraz czterech serwerów danych na jednej maszynie
+fizycznej. Alternatywne rozwiązania umożliwiają uruchomienie każdego
+z~powyższych serwerów na różnych maszynach fizycznych, co nadaje całemu
+rozwiązaniu cechy systemów \textit{fault-tolerant}.
+
 \subsection{Zalety}
 
-Nie ma on żadnych wymagań wobec sposobu konfiguracji klastra. Może być to
+Projekt \cb{} jest niezależny od sposobu konfiguracji klastra Swift. Może być to
 zarówno minimalna instancja uruchomiona na pojedynczej maszynie fizycznej, jak
 i~rozproszony system wielu instancji. Dzięki poziomowi przezroczystości
-zapewnianej przez Swift sposób jego konfiguracji nie ma znaczenia dla projektu
-\cb{}.
+zapewnianej przez Swift sposób jego instalacji nie ma znaczenia dla projektu
+\cb{}. Przezroczystość ta pozwala projektowi \cb{} na udostępnienie
+użytkownikowi systemu plików o~szeregu zalet.
 
-\subsection{Ograniczenia}
+Po pierwsze, Swift gwarantuje redundancyjne mechanizmy przechowywania danych
+oraz \textit{fault-tolerance}. W~wypadku uszkodzenia pewnej części węzłów
+klastra przechowujących dane system plików \cb{} może nadal działać poprawnie,
+pod warunkiem, że awaria nie zaburzy działania samego systemu Swift. Jeżeli
+zapewnieni autorów Swift są poprawne, użytkownik nie powinien odczuć żadnych
+konsekwencji tego typu zdarzeń.
+
+Drugą zaletą jest możliwość złączenia w~ramach klastra Swift dowolnie dużej
+przestrzeni dyskowej. W~efekcie \cb{} pozwala na przechowywanie wielkiej ilości
+danych, które zostaną automatycznie rozlokowane pomiędzy dyskami wchodzącymi
+w~skład maszyn tworzących wykorzystywany przez \cb{} klaster.
+
+Trzecią zaletą jest wysoki poziom abstrakcji interfejsu Swift, który udostępnia
+jedynie podstawowe funkcje odpowiadające za mechanizmy przechowywania
+i~odzyskiwania danych. Mechanizmy redundancyjnego rozmieszczania danych
+w~klastrze, wydajnego wyszukiwania obiektów potrzebnych do zrealizowania żądania
+użytkownika czy też zapewnienie spójności pomiędzy serwerami danych jest
+dokonywane automatycznie. Jako autorzy systemu plików nie musimy też rozwiązywać
+skomplikowanego zagadnienia jakim jest fragmentacja partycji.
 
 \bibliographystyle{../plplainurl}
 \bibliography{../bibliografia}
