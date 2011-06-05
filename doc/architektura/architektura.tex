@@ -2,11 +2,11 @@
 
 \hypersetup{
 	unicode = true,
-	pdfauthor = {Jan Stępień},
+	pdfauthor = {Daniel Kłobuszewski, Jan Stępień},
 }
 
 \title{Cumulonimbus -- Architektura Systemu}
-\author{Jan Stępień}
+\author{Daniel Kłobuszewski, Jan Stępień}
 
 \def\cb{Cumulonimbus}
 \def\todo{\textbf{TODO}: }
@@ -69,6 +69,28 @@ w~klastrze, wydajnego wyszukiwania obiektów potrzebnych do zrealizowania żąda
 użytkownika czy też zapewnienie spójności pomiędzy serwerami danych jest
 dokonywane automatycznie. Jako autorzy systemu plików nie musimy też rozwiązywać
 skomplikowanego zagadnienia jakim jest fragmentacja partycji.
+
+\section{FUSE}
+
+W~systemie operacyjnym Linux systemy plików implementowane są i~działają w
+przestrzeni adresowej jądra. Istnieje jednak możliwość implementacji takiego
+systemu w~przestrzeni użytkownika. Pozwala na to biblioteka FUSE -- Filesystem
+in Userspace. Odpowiada ona za przekazywanie niskopoziomowych wywołań systemu
+plików do procesu użytkownika.
+
+Dzięki temu możliwa jest implementacja pełnoprawnego systemu plików bez
+jakiejkolwiek ingerencji w~kod jądra. Niewątpliwą wygodą tego rozwiązania
+jest fakt, że żaden błąd w~takiej implementacji nie może zakłócić działania
+jądra systemu -- inaczej niż w~tradycyjnych systemach plików.
+
+Kolejną zaletą tej biblioteki jest obecność bindingów do różnych języków
+programowania, w~tym do Pythona, na którego użycie się zdecydowaliśmy.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{img/fuse_structure.png}
+    \caption{Zasada działania FUSE}
+\end{figure}
 
 \bibliographystyle{../plplainurl}
 \bibliography{../bibliografia}
