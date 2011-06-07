@@ -164,9 +164,16 @@ następujących aplikacji i~biblioteki, wraz z~ich zależnościami.
 \begin{itemize}
 	\item{Python 2.6}
 	\item{python-fuse 0.2.1}
-	\item{swift, wersja z~systemu kontroli wersji, rewizja 257 \todo dlaczego
-		ta konkretna}
+	\item{swift, nowszy lub równy wersji 1.3}
 \end{itemize}
+
+Biblioteka kliencka swifta jest jeszcze mocno niedopracowana. Do tego stopnia,
+że podstawowe wywołania API rzucają wyjątkami wskazującymi na literówki w
+kodzie. Od wersji 1.3 wzwyż, tylko jeden z takich bugów dotyczył naszego kodu.
+Aby uruchomić projekt, należy usunąć 3 linie odpowiedzialne za logowanie w
+kodzie swifta, ponieważ rzucają one wyjątkami. Ciekawe może być spostrzeżenie,
+że na początku semestru zgłosiliśmy ten błąd developerom swifta, i do tej pory
+nie uzyskaliśmy odpowiedzi.
 
 \subsection{Instalacja}
 
