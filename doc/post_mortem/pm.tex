@@ -54,6 +54,8 @@
 	Ten sam kod, który jest potrzebny do lokalnej autoryzacji, wykonywany zdalnie na serwerze ma już sens. Można by więc postawić jakiś serwer pośredniczący i robiący naszą autoryzację, albo po prostu dopisanie takiego kawałka kodu do projektu Swift. Wystarczyło by zapewne dodać obsługę pól nagłówków \texttt{'x-account-*'} oraz \texttt{'x-object-*'}, analogiczną jak w przypadku \texttt{'x-container-*'}. To rozwiązanie, jakkolwiek dobre, wykracza poza zakres projektu zdalnego systemu plików.
 	
 	\subsection{Wykorzystanie projektu Nova}\label{sub:wykorzystanie projektu nova}
+
+    Rozważaliśmy także możliwość wprowadzenia warstwy pośredniczącej między samym Swiftem, a~naszym systemem plików. Warstwa ta odpowiadałaby za autoryzację i~posiadała pełen dostęp do chmury Swifta. Warstwę taką możnaby zrealizować z~wykorzystaniem projektu Nova. Należałoby umieścić w chmurze kilka wirtualnych serwerów, które sprawdzałyby, do jakich zasobów użytkownik ma dostęp. Klient łączyłby się do serwera, a~ten przekazywałby mu dane, po uprzedniej autoryzacji użytkownika i sprawdzeniu jego uprawnień. Sama informacja o uprawnieniach mogłaby być wówczas zakodowana wewnątrz obiektów Swifta.
 	
 	\section{Wnioski}\label{sec:wnioski}
 
