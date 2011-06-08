@@ -1,0 +1,32 @@
+\input{../header.tex}
+
+\usepackage{microtype}
+
+\hypersetup{
+unicode = true,
+pdfauthor = {Daniel Kłobuszewski, Jakub Kotur, Jan Stępień},
+pdftitle = {Cumulonimbus -- Dokumentacja końcowa},
+pdfsubject = {RSO 11L}
+}
+
+\def\cb{Cumulonimbus}
+\def\todo{\textbf{TODO}: }
+
+\title{\cb{} \\ Dokumentacja końcowa}
+\author{Daniel Kłobuszewski \and Jakub Kotur \and Jan Stępień}
+
+\begin{document}
+
+\maketitle
+\csname @starttoc\endcsname{toc}
+
+\section{Architektura}
+\input{architektura.tex}
+
+\section{Problemy z autoryzacją}
+\input{pm.tex}
+
+\bibliographystyle{../plplainurl}
+\bibliography{../bibliografia}
+
+\end{document}
