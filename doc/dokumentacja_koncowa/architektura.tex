@@ -81,13 +81,6 @@ rysunku \ref{fig:fuse}.
 
 \subsection{Implementacja systemu plików}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{drzewo.pdf}
-    \caption{Przykładowe drzewo katalogów}
-	\label{fig:drzewo}
-\end{figure}
-
 Projekt \cb{} implementuje prosty system plików. Wspiera kluczowe dla normalnej
 pracy operacje, takie jak tworzenie, odczyt, modyfikacja i~usuwanie katalogów
 i~plików. Wspierane są również dowiązania symboliczne. Poza zakresem prac
@@ -117,6 +110,13 @@ Przykładową reprezentację minimalnego systemu plików przedstawiono na rysunk
 nr~\ref{fig:drzewo}. Z~lewej strony widoczne jest drzewo katalogów, z~prawej
 natomiast trzy kontenery Swift przechowujące reprezentację drzewa. Na diagramie
 pominięto nagłówek \texttt{content-type} zwykłych plików.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{drzewo.pdf}
+    \caption{Przykładowe drzewo katalogów}
+	\label{fig:drzewo}
+\end{figure}
 
 \paragraph{}
 Opisany sposób implementacji posiada niestety pewne wady. Wynikają one z
