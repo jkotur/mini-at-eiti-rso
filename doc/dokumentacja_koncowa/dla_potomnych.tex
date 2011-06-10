@@ -13,6 +13,18 @@ odpowiedzi na zgłoszone przez nas błędy. Mamy nadzieję, że całość będzi
 zmieniać się na lepsze, ale zespołom planującym wykorzystanie Swift w~swoich
 rozwiązaniach zalecamy wzięcie tej kwestii pod uwagę.
 
+Stworzyliśmy dwa projekty zdalnego systemu plików, z~których każdy ma swoje
+wady i~zalety. Obu jednak nie jesteśmy w stanie stworzyć przy aktualnym stanie
+projektu Swift. Mimo że Swift wspiera system ACL, jest on zbyt ubogi, aby
+stworzyć system plików z autoryzacją po stronie serwera. Użytkownik ma albo zbyt
+małe, albo zbyt duże uprawnienia, do poszczególnych obiektów Swifta. Wpadliśmy
+też na kilka pomysłów jak zaimplementować system autoryzacji korzystając
+z~aktualnej wersji Swifta, jednak żaden z~nich nie był dość zadowalający. Dobre
+rozwiązanie są zbyt trudne, a~te dość proste, są z~gruntu błędne. Najlepszym
+więc rozwiązaniem według nas jest poczekać na rozwój projektu Swift
+i~w~zależności od tego jak się rozwinie, zaimplementować jedno z dobrych
+rozwiązań.
+
 \subsection{python-fuse}
 
 Zdecydowaliśmy się na implementację systemu plików w Pythonie. Biblioteka FUSE

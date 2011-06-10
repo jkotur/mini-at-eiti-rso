@@ -41,7 +41,3 @@
 	\subsubsection{Wykorzystanie projektu Nova}\label{sub:wykorzystanie projektu nova}
 
     Rozważaliśmy także możliwość wprowadzenia warstwy pośredniczącej między samym Swiftem a~naszym systemem plików. Warstwa ta odpowiadałaby za autoryzację i~posiadała pełen dostęp do chmury Swifta. Warstwę taką można by zrealizować z~wykorzystaniem projektu Nova. Należałoby umieścić w chmurze kilka wirtualnych serwerów, które sprawdzałyby, do jakich zasobów użytkownik ma dostęp. Klient łączyłby się do serwera, a~ten przekazywałby mu dane, po uprzedniej autoryzacji użytkownika i sprawdzeniu jego uprawnień. Sama informacja o uprawnieniach mogłaby być wówczas zakodowana wewnątrz obiektów Swifta.
-	
-	\subsection{Wnioski}\label{sec:wnioski}
-
-	Reasumując, stworzyliśmy dwa projekty zdalnego systemu plików, z których każdy ma swoje wady i zalety. Obu jednak nie jesteśmy w stanie stworzyć przy aktualnym stanie projektu Swift. Mimo że Swift wspiera system ACL, jest on zbyt ubogi, aby stworzyć system plików z autoryzacją po stronie serwera. Użytkownik ma albo zbyt małe, albo zbyt duże uprawnienia, do poszczególnych obiektów Swifta. Wpadliśmy też na kilka pomysłów jak zaimplementować system autoryzacji korzystając z aktualnej wersji Swifta, jednak żaden z nich nie był dość zadowalający. Dobre rozwiązanie są zbyt trudne, a te dość proste, są z gruntu błędne. Najlepszym więc rozwiązaniem według nas jest poczekać na rozwój projektu Swift i w zależności od tego jak się rozwinie, zaimplementować jedno z dobrych rozwiązań.
