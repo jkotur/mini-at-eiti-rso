@@ -12,24 +12,54 @@ pdfsubject = {RSO 11L}
 \def\cb{Cumulonimbus}
 \def\todo{\textbf{TODO}: }
 
-\title{\cb{} \\ Dokumentacja końcowa}
+\title{\cb{} \\ \Large Dokumentacja końcowa}
 \author{Daniel Kłobuszewski \and Jakub Kotur \and Jan Stępień}
 
 \begin{document}
 
 \maketitle
+
+\begin{abstract}
+	Niniejszy dokument przedstawia architekturę, instrukcję użycia oraz wnioski
+	z~projektowania i~implementacji systemu plików wykorzystującego do
+	przechowywania danych rozproszony system bazodanowy OpenStack Swift. Projekt
+	został zrealizowany w~ramach przedmiotu Rozproszone Systemy Operacyjne
+	w~semestrze wiosennym 2011 na Wydziale Elektroniki i~Technik Informacyjnych
+	Politechniki Warszawskiej.
+\end{abstract}
+
+\setcounter{tocdepth}{2}
 \csname @starttoc\endcsname{toc}
 
-\section{Architektura}
+\section{Wstęp}
+
+W~ramach projektu z~przedmiotu Rozproszone Systemy Operacyjne realizowanego
+w~semestrze 2011L na Wydziale Elektroniki i~Nauk Informacyjnych przygotowaliśmy
+prosty, rozproszony system plików. Wykorzystuje on do działania mechanizm FUSE,
+pozwalający na tworzenie własnych systemów plików działających w~przestrzeni
+użytkownika \cite{fuse}. Wszelkie dane przechowywane w~systemie plików
+gromadzone są w~rozproszonym systemie bazodanowmych OpenStack Swift
+\cite{swift_doc}.
+
+Reszta niniejszego dokumentu została uporządkowana w~następujący sposób.
+Sekcja~\ref{sec:architektura} przedstawia architekturę przygotowanego systemu.
+W~sekcji~\ref{sec:instrukcja} znajduje się instrukcja użytkownika opisująca
+procedurę instalacji i~użycia przygotowanego systemu plików.
+Sekcja~\ref{sec:post_mortem} poświęcona jest problemom jakie napotkaliśmy
+pracując nad implementacją systemu autoryzacji i~uprawnień. Na koniec,
+w~sekcji~\ref{sec:wnioski}, zawarliśmy krótkie podsumowanie i~wnioski zebrane po
+realizacji projektu.
+
+\section{Architektura}\label{sec:architektura}
 \input{architektura.tex}
 
-\section{Instrukcja obsługi}
+\section{Instrukcja obsługi}\label{sec:instrukcja}
 \input{instrukcja.tex}
 
-\section{Problemy z autoryzacją}
+\section{Problemy z autoryzacją}\label{sec:post_mortem}
 \input{pm.tex}
 
-\section{Wnioski końcowe}
+\section{Wnioski końcowe}\label{sec:wnioski}
 \input{dla_potomnych.tex}
 
 \bibliographystyle{../plplainurl}
