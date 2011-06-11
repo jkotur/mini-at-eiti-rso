@@ -54,6 +54,18 @@ użytkownika czy też zapewnienie spójności pomiędzy serwerami danych jest
 dokonywane automatycznie. Jako autorzy systemu plików nie musimy też rozwiązywać
 skomplikowanego zagadnienia jakim jest fragmentacja partycji.
 
+\subsubsection{API}\label{ssub:api}
+
+Tak jak pisaliśmy w na początku semestru~\cite{qba-swift}, Swift udostępnia
+RESTowe API do komunikacji z serwerem proxy. Niestety nigdzie nie udało nam się
+znaleźć dokładnej dokumentacji, ani żadnego opisu tego API. Rozwiązaniem okazało
+się biblioteka kliencka. Swift jest projektem w pełni napisanym w pythonie,
+więc również wszystkie jego biblioteki napisane są w pythonie. Wraz z kodem
+Swifta dostarczany jest moduł \texttt{swift.common.client} który jest prostym i
+wygodnym zestawem funkcji, które konstruują zapytania RESTowe i wysyłają je do
+Swifta. Dokładana dokumentacja tej biblioteki znajduje się na stornach dla
+developerów Swifta~\cite{swift_doc_scc}.
+
 \subsection{FUSE}
 
 \begin{figure}
